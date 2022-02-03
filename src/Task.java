@@ -25,7 +25,7 @@ import java.util.Date;
 
 /**
  *
- * @author user
+ * @author Grant Docherty - 5032768
  */
 public class Task implements Comparable<Task>{
     private int id;
@@ -42,6 +42,11 @@ public class Task implements Comparable<Task>{
     public Task(int id, String taskName, String description){
         this(id, taskName);
         setDescription(description);
+    }
+
+    public Task(int id, String taskName, Date date){
+        this(id, taskName);
+        setDate(date);
     }
     
     public Task(int id, String taskName, String description, Date date){
