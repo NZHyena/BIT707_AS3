@@ -30,7 +30,7 @@ import java.util.Date;
 public class Task implements Comparable<Task>{
     private int id;
     private String taskName;
-    private String description;
+    private String details;
     private Date date;
     
     // Base Constructor
@@ -56,8 +56,8 @@ public class Task implements Comparable<Task>{
     public String getTaskName(){
         return taskName;
     }
-    public String getDescription(){
-        return description;
+    public String getDetails(){
+        return details;
     }
     public Date getDate(){
         return date;
@@ -71,7 +71,7 @@ public class Task implements Comparable<Task>{
         this.taskName = newTaskName;
     }
     public void setDescription(String newDescription){
-        this.description = newDescription;
+        this.details = newDescription;
     }
     public void setDate(Date newDate){
         this.date = newDate;
@@ -79,7 +79,21 @@ public class Task implements Comparable<Task>{
 
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", taskName=" + taskName + ", description=" + description + ", date=" + date + '}';
+        String str = String.format("Task %d: %s", this.getId(), this.getTaskName());
+
+        if(getDetails() != null && this.getDate()!= null){
+            str += String.format(" - Due: %t - Details: %s", this.getDate(), this.getDetails());
+        }
+        else if (this.getDetails() != null || this.getDate() != null){
+            if (this.getDetails() != null){
+                str += String.format("- Details: %s", this.getDetails());
+            }
+            else {
+                str += String.format("- Due: %t", this.getDate());
+            }
+        }
+
+        return str;
     }
     
     public int compareTo(Task ta){
