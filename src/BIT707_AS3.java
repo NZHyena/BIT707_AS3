@@ -22,7 +22,7 @@
 
 /**
  *
- * @author user
+ * @author Grant Docherty - 5032768
  */
 public class BIT707_AS3 {
 
