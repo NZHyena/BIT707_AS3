@@ -53,8 +53,13 @@ public class TaskController {
         // Add to database
     }
     
-    public void CreateTask(int id, String taskName, String description, Date date){
-        allTasks.add(new Task(id, taskName, description, date));
+    public void CreateTask(int id, String taskName, String details, Date date){
+        allTasks.add(new Task(id, taskName, details, date));
+        // Add to database
+    }
+
+    public void CreateTask(int id, String taskName, Date date){
+        allTasks.add(new Task(id, taskName, date));
         // Add to database
     }
     
