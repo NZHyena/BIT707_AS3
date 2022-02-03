@@ -102,12 +102,15 @@ public class TaskController {
         
     }
     
+    /// <summary>
+    /// The initial load required to sync the database with the application
+    /// </summary>
     public void initialLoad(){
         ResultSet results = db.SelectAllTasks();
         
         Task temp;
         String tempDetails = null;
-        Date tempDate = null;
+        Date tempDate = new Date();
         int tempId;
         String tempName;
         
@@ -125,9 +128,10 @@ public class TaskController {
                     tempDetails = results.getString("details");
                 }
                 
+                // TODO: This needs a replacement since date is depreciated
                 if(results.getDate("date") != null){
                     hasDate = true;
-                    tempDate = results.getDate("date");
+                    tempDate.setDate(results.getDate("date"));
                 }
                 
                 if(hasDate && hasDetails)
