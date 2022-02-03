@@ -52,6 +52,21 @@ public final class DatabaseConnection {
 
             } // End of Catch exception handling
         }
+
+        public void ExecuteQuery(String execQuery){
+            Connection();
+            try {
+                stmt = c.createStatement();
+                String query = execQuery;
+                stmt.executeQuery(query);
+            } catch (Exception e) {
+                // Displaying relevant exception feedback
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
+                // Closing the application
+                System.exit(0);
+            }
+        }
         
         public ResultSet SelectAllTasks(){
             Connection();
@@ -70,17 +85,55 @@ public final class DatabaseConnection {
             } // End of Catch exception handling
             return result;
         }
-        
-        public void DeleteTask(){
-            
+
+        public ResultSet SelectTaskById(int id){
+            throw new UnsupportedOperationException();
+            // TODO: Write Method Contents
+        }
+
+        public ResultsSet SelectTasksByName(String taskName){
+            throw new UnsupportedOperationException();
+            // TODO: Write Method Contents
+        }
+
+        public ResultsSet SelectTasksByKeyword(String keyword){
+            throw new UnsupportedOperationException();
+            // TODO: Write Method Contents
+        }
+
+        public ResultsSet SelectTasksByDate(Date date){
+            throw new UnsupportedOperationException();
+            // TODO: Write Method Contents
         }
         
-        public void CreateTask(){
-            
+        public void DeleteTask(int id){
+            String query = String.format("DELETE FROM Task WHERE taskNumber = %d", id);
+            ExecuteQuery(query);
+        }
+        
+        public void CreateTask(int id, String taskName){
+            String query = String.format("INSERT INTO Task (taskNumber, taskName) VALUES (%d, %s);", id, taskName);
+            ExecuteQuery(query);
+        }
+
+        public void CreateTask(int id, String taskName, String details){
+            String query = String.format("INSERT INTO Task (taskNumer, taskName, details) Values (%d, %s, %s);", id, taskName, details);
+            ExecuteQuery(query);
+        }
+
+        public void CreateTask(int id, String taskName, Date date){
+            String query = String.format("INSERT INTO Task (taskNumer, taskName, date) Values (%d, %s, %t);", id, taskName, date);
+            ExecuteQuery(query);
+        }
+
+        public void CreateTask(int id, String taskName, String details, Date date){
+            String query = String.format("INSERT INTO Task (taskNumer, taskName, details, date) Values (%d, %s, %s, %t);", id, taskName, details, date);
+            ExecuteQuery(query);
         }
         
         public void UpdateTask(){
-            
+            throw new UnsupportedOperationException();
+            // TODO: Write Method Contents
         }
         
         public void CloseConnection(){
