@@ -1,4 +1,3 @@
-
 import java.sql.*;
 
 /*
@@ -43,7 +42,7 @@ public final class DatabaseConnection {
                 // Displaying relevant feedback
                 System.out.println("Opened database successfully\n");
 
-            } catch (Exception e){ // End of try, Start of catch
+            } catch (Exception e){ // End of try block, Start of catch block
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
@@ -55,27 +54,30 @@ public final class DatabaseConnection {
 
         public void ExecuteQuery(String execQuery){
             Connection();
+            // Start of try exception handling
             try {
                 stmt = c.createStatement();
                 String query = execQuery;
                 stmt.executeQuery(query);
-            } catch (Exception e) {
+            } catch (Exception e) { // End of try block, start of catch block
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
                 System.exit(0);
-            }
+            } // End of catch exception handling
         }
-        
-        public ResultSet SelectAllTasks(){
+
+        public ResultSet ExecuteRequest(String execRequest){
             Connection();
-            try{
-                // Querying the database
+            // Start of try exception handling
+            try {
                 stmt = c.createStatement();
-                String query = "SELECT * FROM Task;";
-                result = stmt.executeQuery(query);                
-            } catch (Exception e){ // End of try, Start of catch
+                String request = execRequest;
+                result = stmt.executeQuery(request);
+
+                return result;
+            } catch (Exception e) { // End of try block, Start of catch block
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
@@ -83,27 +85,41 @@ public final class DatabaseConnection {
                 System.exit(0);
 
             } // End of Catch exception handling
+
             return result;
+        }
+        
+        public ResultSet SelectAllTasks(){
+            return ExecuteRequest("SELECT * FROM Task;");
         }
 
         public ResultSet SelectTaskById(int id){
-            throw new UnsupportedOperationException();
-            // TODO: Write Method Contents
+            String request = String.format("SELECT * FROM Task WHERE id = %d", id);
+            return ExecuteRequest(request);
         }
 
-        public ResultsSet SelectTasksByName(String taskName){
-            throw new UnsupportedOperationException();
-            // TODO: Write Method Contents
+        public ResultSet SelectTasksByName(String taskName){
+            String request = String.format("SELECT * FROM Task WHERE taskName LIKE %s", taskName);
+            return ExecuteRequest(request);
         }
 
-        public ResultsSet SelectTasksByKeyword(String keyword){
-            throw new UnsupportedOperationException();
-            // TODO: Write Method Contents
+        public ResultSet SelectTasksByDate(Date date){
+            String request = String.format("SELECT * From Task WHERE date = %t", date);
+            return ExecuteRequest(request);
         }
 
-        public ResultsSet SelectTasksByDate(Date date){
-            throw new UnsupportedOperationException();
-            // TODO: Write Method Contents
+        public ResultSet SelectTasksBetweenDates(Date date1, Date date2){
+            String request;
+            if(date1.before(date2)){
+                request = String.format("SELECT * FROM Task WHERE date BETWEEN %t and %t", date1, date2);
+            }
+            else if(date1.equals(date2)){
+                request = String.format("SELECT * From Task WHERE date = %t", date1);
+            }
+            else {
+                request = String.format("SELECT * FROM Task WHERE date BETWEEN %t and %t", date2, date1);
+            }
+            return ExecuteRequest(request);
         }
         
         public void DeleteTask(int id){
