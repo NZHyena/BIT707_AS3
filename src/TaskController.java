@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -45,35 +46,44 @@ public class TaskController {
     
     public void CreateTask(int id, String taskName){
         allTasks.add(new Task(id, taskName));
-        // Add to database
+        db.CreateTask(id, taskName);
     }
     
     public void CreateTask(int id, String taskName, String description){
         allTasks.add(new Task(id, taskName, description));
-        // Add to database
+        db.CreateTask(id, taskName, description);
     }
     
     public void CreateTask(int id, String taskName, String details, Date date){
         allTasks.add(new Task(id, taskName, details, date));
-        // Add to database
+        db.CreateTask(id, taskName, details, (java.sql.Date) date);
     }
 
     public void CreateTask(int id, String taskName, Date date){
         allTasks.add(new Task(id, taskName, date));
-        // Add to database
+        db.CreateTask(id, taskName, (java.sql.Date) date);
     }
     
     public void DeleteTask(Task ta){
         allTasks.remove(ta);
-        // Remove from database
+        db.DeleteTask(ta.getId());
     }
     
-    public void EditTask(int id, String taskname, String description, String date){
-        FindTaskById(id).setTaskName(taskname);
-        if(!description.isEmpty())
-            FindTaskById(id).setDescription(description);
+    public void EditTask(int id, String taskName, String details, String date){
+        FindTaskById(id).setTaskName(taskName);
+        db.UpdateTaskName(id, taskName);
+        if(!details.isEmpty())
+            FindTaskById(id).setDescription(details);
+            db.UpdateTaskDetails(id, details);
         if(!date.isEmpty()){
-            FindTaskById(id).setDate(new Date(date));
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+                Date tempDate = formatter.parse(date);
+                FindTaskById(id).setDate(tempDate);
+                db.UpdateTaskDate(id, (java.sql.Date) tempDate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -110,10 +120,8 @@ public class TaskController {
     /// <summary>
     /// The initial load required to sync the database with the application
     /// </summary>
-    public void initialLoad(){
+    public void LoadDbAllTasks(){
         ResultSet results = db.SelectAllTasks();
-        
-        Task temp;
         String tempDetails = null;
         Date tempDate = new Date();
         int tempId;
@@ -133,10 +141,9 @@ public class TaskController {
                     tempDetails = results.getString("details");
                 }
                 
-                // TODO: This needs a replacement since date is depreciated
                 if(results.getDate("date") != null){
                     hasDate = true;
-                    tempDate.setDate(results.getDate("date"));
+                    tempDate = results.getDate("date");
                 }
                 
                 if(hasDate && hasDetails)
