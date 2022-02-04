@@ -87,14 +87,14 @@ public class Task implements Comparable<Task>{
         String str = String.format("Task %d: %s", this.getId(), this.getTaskName());
 
         if(getDetails() != null && this.getDate()!= null){
-            str += String.format(" - Due: %t - Details: %s", this.getDate(), this.getDetails());
+            str += String.format(" - Details: %s - Due: %td/%tm/%ty", this.getDetails(), this.getDate(), this.getDate(), this.getDate());
         }
         else if (this.getDetails() != null || this.getDate() != null){
             if (this.getDetails() != null){
-                str += String.format("- Details: %s", this.getDetails());
+                str += String.format(" - Details: %s", this.getDetails());
             }
             else {
-                str += String.format("- Due: %t", this.getDate());
+                str += String.format(" - Due: %tF", this.getDate());
             }
         }
 
