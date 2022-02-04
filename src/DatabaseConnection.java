@@ -147,9 +147,19 @@ public final class DatabaseConnection {
             ExecuteQuery(query);
         }
         
-        public void UpdateTask(){
-            throw new UnsupportedOperationException();
-            // TODO: Write Method Contents
+        public void UpdateTaskName(int id, String taskName){
+            String query = String.format("UPDATE Task SET taskName = '%s' WHERE taskNumber = %d;", id, taskName);
+            ExecuteQuery(query);
+        }
+
+        public void UpdateTaskDetails(int id, String details){
+            String query = String.format("UPDATE Task SET details = '%s' WHERE taskNumber = %d;", id, details);
+            ExecuteQuery(query);
+        }
+
+        public void UpdateTaskDate(int id, Date date){
+            String query = String.format("UPDATE Task SET date = %t WHERE taskNumber = %d;", id, date);
+            ExecuteQuery(query);
         }
         
         public void CloseConnection(){
