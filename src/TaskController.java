@@ -33,6 +33,12 @@ import java.text.SimpleDateFormat;
  */
 public class TaskController {
     
+    // TODO: Look into using java.time.date instead of java.utli.date
+    // TODO: Comment everything
+    // TODO: Test Everything
+        // TODO: Test against Test Plan
+    // TODO: Create method to Check all tasks against all database entries when app closes
+
     private List<Task> allTasks;
     private final DatabaseConnection db = new DatabaseConnection();
     
@@ -123,6 +129,8 @@ public class TaskController {
     public void LoadDbAllTasks(){
         ResultSet results = db.SelectAllTasks();
         String tempDetails = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+        String strDate;
         Date tempDate = new Date();
         int tempId;
         String tempName;
@@ -141,9 +149,10 @@ public class TaskController {
                     tempDetails = results.getString("details");
                 }
                 
-                if(results.getDate("date") != null){
+                if(results.getString("date") != null){
                     hasDate = true;
-                    tempDate = results.getDate("date");
+                    strDate = results.getString("date");
+                    tempDate = formatter.parse(strDate);
                 }
                 
                 if(hasDate && hasDetails)
