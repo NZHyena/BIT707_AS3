@@ -56,9 +56,9 @@ public class TaskController {
         db.CreateTask(id, taskName);
     }
     
-    public void CreateTask(int id, String taskName, String description){
-        allTasks.add(new Task(id, taskName, description));
-        db.CreateTask(id, taskName, description);
+    public void CreateTask(int id, String taskName, String details){
+        allTasks.add(new Task(id, taskName, details));
+        db.CreateTask(id, taskName, details);
     }
     
     public void CreateTask(int id, String taskName, String details, Date date){
