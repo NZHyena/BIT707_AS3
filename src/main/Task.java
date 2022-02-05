@@ -29,29 +29,36 @@ import java.util.Date;
  * @author Grant Docherty - 5032768
  */
 public class Task implements Comparable<Task>{
+
+    // TODO: Create Task ID Auto Increment
+
     private int id;
     private String taskName;
     private String details;
     private Date date;
     
+    public Task(){
+        id = TaskSingleton.NextId();
+    }
+
     // Base Constructor
-    public Task(int id, String taskName){
-        setId(id);
+    public Task(String taskName){
+        this();
         setTaskName(taskName);
     }
     
-    public Task(int id, String taskName, String description){
-        this(id, taskName);
+    public Task(String taskName, String description){
+        this(taskName);
         setDescription(description);
     }
 
-    public Task(int id, String taskName, Date date){
-        this(id, taskName);
+    public Task(String taskName, Date date){
+        this(taskName);
         setDate(date);
     }
     
-    public Task(int id, String taskName, String description, Date date){
-        this(id, taskName, description);
+    public Task(String taskName, String description, Date date){
+        this(taskName, description);
         setDate(date);
     }
     
@@ -59,6 +66,7 @@ public class Task implements Comparable<Task>{
     public int getId(){
         return id;
     }
+
     public String getTaskName(){
         return taskName;
     }
@@ -69,16 +77,14 @@ public class Task implements Comparable<Task>{
         return date;
     }
     
-    // Setters
-    public void setId(int newId){
-        this.id = newId;
-    }
     public void setTaskName(String newTaskName){
         this.taskName = newTaskName;
     }
+
     public void setDescription(String newDescription){
         this.details = newDescription;
     }
+
     public void setDate(Date newDate){
         this.date = newDate;
     }
