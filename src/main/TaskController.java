@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -188,6 +189,17 @@ public class TaskController {
         
         db.CloseConnection();
         
+    }
+
+    public void InitialLoad(){
+        File f = new File("/tmp/TaskSingleton.ser");
+        if(f.exists()){
+            ReadSerializable();
+        }
+        else {
+            WriteSerializable();
+            ReadSerializable();
+        }
     }
 
     public void WriteSerializable(){
