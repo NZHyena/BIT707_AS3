@@ -190,6 +190,11 @@ public class TaskController {
     }
 
     public void InitialLoad(){
+        File directory = new File("./tmp/");
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+
         File f = new File("./tmp/TaskSingleton.ser");
         if(f.exists()){
             ReadSerializable();
