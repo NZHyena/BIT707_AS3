@@ -53,13 +53,13 @@ public final class DatabaseConnection {
             } // End of Catch exception handling
         }
 
-        public void ExecuteQuery(String execQuery){
+        public void ExecuteUpdate(String execQuery){
             Connection();
             // Start of try exception handling
             try {
                 stmt = c.createStatement();
                 String query = execQuery;
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (Exception e) { // End of try block, start of catch block
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -95,12 +95,12 @@ public final class DatabaseConnection {
         }
 
         public ResultSet SelectTaskById(int id){
-            String request = String.format("SELECT * FROM Task WHERE id = %d", id);
+            String request = String.format("SELECT * FROM Task WHERE taskNumber = %d", id);
             return ExecuteRequest(request);
         }
 
         public ResultSet SelectTasksByName(String taskName){
-            String request = String.format("SELECT * FROM Task WHERE taskName LIKE %s", taskName);
+            String request = String.format("SELECT * FROM Task WHERE taskName LIKE '%s'", taskName);
             return ExecuteRequest(request);
         }
 
@@ -125,42 +125,42 @@ public final class DatabaseConnection {
         
         public void DeleteTask(int id){
             String query = String.format("DELETE FROM Task WHERE taskNumber = %d", id);
-            ExecuteQuery(query);
+            ExecuteUpdate(query);
         }
         
         public void CreateTask(int id, String taskName){
-            String query = String.format("INSERT INTO Task (taskNumber, taskName) VALUES (%d, %s);", id, taskName);
-            ExecuteQuery(query);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName) VALUES (%d, '%s');", id, taskName);
+            ExecuteUpdate(query);
         }
 
         public void CreateTask(int id, String taskName, String details){
-            String query = String.format("INSERT INTO Task (taskNumer, taskName, details) Values (%d, %s, %s);", id, taskName, details);
-            ExecuteQuery(query);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName, details) Values (%d, '%s', '%s');", id, taskName, details);
+            ExecuteUpdate(query);
         }
 
         public void CreateTask(int id, String taskName, Date date){
-            String query = String.format("INSERT INTO Task (taskNumer, taskName, date) Values (%d, %s, %t);", id, taskName, date);
-            ExecuteQuery(query);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName, date) Values (%d, '%s', %t);", id, taskName, date);
+            ExecuteUpdate(query);
         }
 
         public void CreateTask(int id, String taskName, String details, Date date){
-            String query = String.format("INSERT INTO Task (taskNumer, taskName, details, date) Values (%d, %s, %s, %t);", id, taskName, details, date);
-            ExecuteQuery(query);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName, details, date) Values (%d, '%s', '%s', %t);", id, taskName, details, date);
+            ExecuteUpdate(query);
         }
         
         public void UpdateTaskName(int id, String taskName){
             String query = String.format("UPDATE Task SET taskName = '%s' WHERE taskNumber = %d;", id, taskName);
-            ExecuteQuery(query);
+            ExecuteUpdate(query);
         }
 
         public void UpdateTaskDetails(int id, String details){
             String query = String.format("UPDATE Task SET details = '%s' WHERE taskNumber = %d;", id, details);
-            ExecuteQuery(query);
+            ExecuteUpdate(query);
         }
 
         public void UpdateTaskDate(int id, Date date){
             String query = String.format("UPDATE Task SET date = %t WHERE taskNumber = %d;", id, date);
-            ExecuteQuery(query);
+            ExecuteUpdate(query);
         }
         
         public void CloseConnection(){
