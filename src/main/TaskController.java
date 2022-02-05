@@ -69,13 +69,13 @@ public class TaskController {
         db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
     }
     
-    public void CreateTask(int id, String taskName, String details, Date date){
+    public void CreateTask(String taskName, String details, Date date){
         Task tmp = new Task(taskName, details, date);
         allTasks.add(tmp);
         db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), (java.sql.Date)tmp.getDate());
     }
 
-    public void CreateTask(int id, String taskName, Date date){
+    public void CreateTask(String taskName, Date date){
         Task tmp = new Task(taskName, date);
         allTasks.add(tmp);
         db.CreateTask(tmp.getId(), tmp.getTaskName(), (java.sql.Date)tmp.getDate());
@@ -128,10 +128,6 @@ public class TaskController {
     
     public void SortTask(){
         Collections.sort(allTasks);
-    }
-    
-    public void CheckTasks(){
-        
     }
     
     /// <summary>
