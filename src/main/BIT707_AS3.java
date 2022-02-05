@@ -33,12 +33,16 @@ public class BIT707_AS3 {
     public static void main(String[] args) {
         TaskController controller = new TaskController();
 
+        controller.InitialLoad();
         controller.LoadAllTasks();
 
         for (Task ta : controller.getAllTasks()) {
             System.out.println(controller.DisplayTask(ta));
         }
-    
+
+        controller.DeleteTask(controller.FindTaskById(8));
+        
+        controller.WriteSerializable();
     }
     
 }
