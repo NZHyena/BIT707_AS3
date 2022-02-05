@@ -90,7 +90,7 @@ public class TaskController {
         FindTaskById(id).setTaskName(taskName);
         db.UpdateTaskName(id, taskName);
         if(!details.isEmpty())
-            FindTaskById(id).setDescription(details);
+            FindTaskById(id).setDetails(details);
             db.UpdateTaskDetails(id, details);
         if(!date.isEmpty()){
             try {
@@ -137,13 +137,12 @@ public class TaskController {
     /// <summary>
     /// The initial load required to sync the database with the application
     /// </summary>
-    public void LoadDbAllTasks(){
+    public void LoadAllTasks(){
         ResultSet results = db.SelectAllTasks();
         String tempDetails = null;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
         String strDate;
         Date tempDate = new Date();
-        int tempId;
         String tempName;
         
         // Start of while loop to display database results
@@ -152,7 +151,6 @@ public class TaskController {
                 Boolean hasDate = false;
                 Boolean hasDetails = false;
                 
-                tempId = results.getInt(1);
                 tempName = results.getString("taskName");
                 
                 if(results.getString("details") != null){
@@ -192,7 +190,7 @@ public class TaskController {
     }
 
     public void InitialLoad(){
-        File f = new File("/tmp/TaskSingleton.ser");
+        File f = new File("./tmp/TaskSingleton.ser");
         if(f.exists()){
             ReadSerializable();
         }
@@ -204,7 +202,7 @@ public class TaskController {
 
     public void WriteSerializable(){
         try{
-            FileOutputStream fileOut = new FileOutputStream("/tmp/TaskSingleton.ser");
+            FileOutputStream fileOut = new FileOutputStream("./tmp/TaskSingleton.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(TaskSingleton.getInstance());
             out.close();;
@@ -216,7 +214,7 @@ public class TaskController {
 
     public void ReadSerializable(){
         try{
-            FileInputStream fileIn = new FileInputStream("/tmp/TaskSingleton.ser");
+            FileInputStream fileIn = new FileInputStream("./tmp/TaskSingleton.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             TaskSingleton.SetInstance((TaskSingleton)in.readObject());
             in.close();
