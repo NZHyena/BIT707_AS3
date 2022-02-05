@@ -49,7 +49,7 @@ public class Task implements Comparable<Task>{
     
     public Task(String taskName, String description){
         this(taskName);
-        setDescription(description);
+        setDetails(description);
     }
 
     public Task(String taskName, Date date){
@@ -81,8 +81,8 @@ public class Task implements Comparable<Task>{
         this.taskName = newTaskName;
     }
 
-    public void setDescription(String newDescription){
-        this.details = newDescription;
+    public void setDetails(String newDetails){
+        this.details = newDetails;
     }
 
     public void setDate(Date newDate){
