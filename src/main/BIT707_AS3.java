@@ -33,7 +33,7 @@ public class BIT707_AS3 {
     public static void main(String[] args) {
         TaskController controller = new TaskController();
 
-        controller.LoadDbAllTasks();
+        controller.LoadAllTasks();
 
         for (Task ta : controller.getAllTasks()) {
             System.out.println(controller.DisplayTask(ta));
