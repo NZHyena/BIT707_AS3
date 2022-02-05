@@ -139,42 +139,27 @@ public class TaskController {
     /// </summary>
     public void LoadAllTasks(){
         ResultSet results = db.SelectAllTasks();
-        String tempDetails = null;
+        Task tmp;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
         String strDate;
-        Date tempDate = new Date();
-        String tempName;
         
         // Start of while loop to display database results
         try{
             while(results.next()){
-                Boolean hasDate = false;
-                Boolean hasDetails = false;
-                
-                tempName = results.getString("taskName");
+                tmp = new Task();
+                tmp.setId(results.getInt("taskNumber"));
+                tmp.setTaskName(results.getString("taskName"));
                 
                 if(results.getString("details") != null){
-                    hasDetails = true;
-                    tempDetails = results.getString("details");
+                    tmp.setDetails(results.getString("details"));
                 }
                 
                 if(results.getString("date") != null){
-                    hasDate = true;
                     strDate = results.getString("date");
-                    tempDate = formatter.parse(strDate);
+                    tmp.setDate(formatter.parse(strDate));
                 }
-                
-                if(hasDate && hasDetails)
-                    allTasks.add(new Task(tempName, tempDetails, tempDate));
-                else if(hasDate || hasDetails){
-                    if(hasDate)
-                        allTasks.add(new Task(tempName, tempDate));
-                    else
-                        allTasks.add(new Task(tempName, tempDetails));
-                }
-                else
-                    allTasks.add(new Task(tempName));
-
+            
+                allTasks.add(tmp);
             }
         } catch (Exception e){ // End of try, Start of catch
             // Displaying relevant exception feedback
