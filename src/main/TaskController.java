@@ -3,6 +3,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 
@@ -51,24 +56,28 @@ public class TaskController {
         return allTasks;
     }
     
-    public void CreateTask(int id, String taskName){
-        allTasks.add(new Task(id, taskName));
-        db.CreateTask(id, taskName);
+    public void CreateTask(String taskName){
+        Task tmp = new Task(taskName);
+        allTasks.add(tmp);
+        db.CreateTask(tmp.getId(), tmp.getTaskName());
     }
     
-    public void CreateTask(int id, String taskName, String details){
-        allTasks.add(new Task(id, taskName, details));
-        db.CreateTask(id, taskName, details);
+    public void CreateTask(String taskName, String details){
+        Task tmp = new Task(taskName, details);
+        allTasks.add(tmp);
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
     }
     
     public void CreateTask(int id, String taskName, String details, Date date){
-        allTasks.add(new Task(id, taskName, details, date));
-        db.CreateTask(id, taskName, details, (java.sql.Date) date);
+        Task tmp = new Task(taskName, details, date);
+        allTasks.add(tmp);
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), (java.sql.Date)tmp.getDate());
     }
 
     public void CreateTask(int id, String taskName, Date date){
-        allTasks.add(new Task(id, taskName, date));
-        db.CreateTask(id, taskName, (java.sql.Date) date);
+        Task tmp = new Task(taskName, date);
+        allTasks.add(tmp);
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), (java.sql.Date)tmp.getDate());
     }
     
     public void DeleteTask(Task ta){
@@ -157,15 +166,15 @@ public class TaskController {
                 }
                 
                 if(hasDate && hasDetails)
-                    allTasks.add(new Task(tempId, tempName, tempDetails, tempDate));
+                    allTasks.add(new Task(tempName, tempDetails, tempDate));
                 else if(hasDate || hasDetails){
                     if(hasDate)
-                        allTasks.add(new Task(tempId, tempName, "", tempDate));
+                        allTasks.add(new Task(tempName, tempDate));
                     else
-                        allTasks.add(new Task(tempId, tempName, tempDetails));
+                        allTasks.add(new Task(tempName, tempDetails));
                 }
                 else
-                    allTasks.add(new Task(tempId, tempName));
+                    allTasks.add(new Task(tempName));
 
             }
         } catch (Exception e){ // End of try, Start of catch
@@ -179,5 +188,33 @@ public class TaskController {
         
         db.CloseConnection();
         
+    }
+
+    public void WriteSerializable(){
+        try{
+            FileOutputStream fileOut = new FileOutputStream("/tmp/TaskSingleton.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(TaskSingleton.getInstance());
+            out.close();;
+            fileOut.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void ReadSerializable(){
+        try{
+            FileInputStream fileIn = new FileInputStream("/tmp/TaskSingleton.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            TaskSingleton.SetInstance((TaskSingleton)in.readObject());
+            in.close();
+            fileIn.close();
+        } catch (IOException i){
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+            return;
+        }
     }
 }
