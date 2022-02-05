@@ -30,20 +30,17 @@ import java.util.Date;
  */
 public class Task implements Comparable<Task>{
 
-    // TODO: Create Task ID Auto Increment
-
     private int id;
     private String taskName;
     private String details;
     private Date date;
     
     public Task(){
-        id = TaskSingleton.NextId();
     }
 
     // Base Constructor
     public Task(String taskName){
-        this();
+        id = TaskSingleton.NextId();
         setTaskName(taskName);
     }
     
@@ -77,6 +74,10 @@ public class Task implements Comparable<Task>{
         return date;
     }
     
+    // Setters
+    public void setId(int newId){
+        this.id = newId;
+    }
     public void setTaskName(String newTaskName){
         this.taskName = newTaskName;
     }
