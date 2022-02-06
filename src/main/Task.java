@@ -1,6 +1,6 @@
 package main;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -33,7 +33,7 @@ public class Task implements Comparable<Task>{
     private int id;
     private String taskName;
     private String details;
-    private Date date;
+    private LocalDate date;
     
     public Task(){
     }
@@ -49,12 +49,12 @@ public class Task implements Comparable<Task>{
         setDetails(description);
     }
 
-    public Task(String taskName, Date date){
+    public Task(String taskName, LocalDate date){
         this(taskName);
         setDate(date);
     }
     
-    public Task(String taskName, String description, Date date){
+    public Task(String taskName, String description, LocalDate date){
         this(taskName, description);
         setDate(date);
     }
@@ -70,7 +70,7 @@ public class Task implements Comparable<Task>{
     public String getDetails(){
         return details;
     }
-    public Date getDate(){
+    public LocalDate getDate(){
         return date;
     }
     
@@ -86,7 +86,7 @@ public class Task implements Comparable<Task>{
         this.details = newDetails;
     }
 
-    public void setDate(Date newDate){
+    public void setDate(LocalDate newDate){
         this.date = newDate;
     }
 
@@ -112,7 +112,7 @@ public class Task implements Comparable<Task>{
     public int compareTo(Task ta){
         if(this.date == ta.date)
             return 0;
-        else if (this.date.after(ta.date)) // Flip this if date ordering is incorrect
+        else if (this.date.isBefore(ta.date)) // Flip this if date ordering is incorrect
             return 1;
         else
             return -1;

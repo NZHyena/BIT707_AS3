@@ -1,7 +1,6 @@
 package main;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -40,7 +39,6 @@ import java.text.SimpleDateFormat;
  */
 public class TaskController {
     
-    // TODO: Look into using java.time.date instead of java.utli.date
     // TODO: Comment everything
     // TODO: Create method to Check all tasks against all database entries when app closes
     // TODO: Create Observer using EventListener
@@ -59,25 +57,25 @@ public class TaskController {
     public void CreateTask(String taskName){
         Task tmp = new Task(taskName);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName());
+        //db.CreateTask(tmp.getId(), tmp.getTaskName());
     }
     
     public void CreateTask(String taskName, String details){
         Task tmp = new Task(taskName, details);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
+        // db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
     }
     
-    public void CreateTask(String taskName, String details, Date date){
+    public void CreateTask(String taskName, String details, LocalDate date){
         Task tmp = new Task(taskName, details, date);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), (java.sql.Date)tmp.getDate());
+        // db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), (java.sql.Date)tmp.getDate());
     }
 
-    public void CreateTask(String taskName, Date date){
+    public void CreateTask(String taskName, LocalDate date){
         Task tmp = new Task(taskName, date);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), (java.sql.Date)tmp.getDate());
+        //db.CreateTask(tmp.getId(), tmp.getTaskName(), (java.sql.Date)tmp.getDate());
     }
     
     public void DeleteTask(Task ta){
@@ -87,16 +85,15 @@ public class TaskController {
     
     public void EditTask(int id, String taskName, String details, String date){
         FindTaskById(id).setTaskName(taskName);
-        db.UpdateTaskName(id, taskName);
+        //db.UpdateTaskName(id, taskName);
         if(!details.isEmpty())
             FindTaskById(id).setDetails(details);
-            db.UpdateTaskDetails(id, details);
+            //db.UpdateTaskDetails(id, details);
         if(!date.isEmpty()){
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
-                Date tempDate = formatter.parse(date);
+                LocalDate tempDate = LocalDate.parse(date);
                 FindTaskById(id).setDate(tempDate);
-                db.UpdateTaskDate(id, (java.sql.Date) tempDate);
+                //db.UpdateTaskDate(id, (java.sql.Date) tempDate);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -135,7 +132,6 @@ public class TaskController {
     public void LoadAllTasks(){
         ResultSet results = db.SelectAllTasks();
         Task tmp;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
         String strDate;
         
         // Start of while loop to display database results
@@ -151,7 +147,7 @@ public class TaskController {
                 
                 if(results.getString("date") != null){
                     strDate = results.getString("date");
-                    tmp.setDate(formatter.parse(strDate));
+                    tmp.setDate(LocalDate.parse(strDate));
                 }
             
                 allTasks.add(tmp);

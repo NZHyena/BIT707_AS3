@@ -5,13 +5,11 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import main.Task;
@@ -27,17 +25,13 @@ public class TaskControllerTest {
 
     TaskController testControl;
 
-    @BeforeClass
-    public void setup(){
-        testControl = new TaskController();
-    }
-
     @Test
     public void testCreateTaskBase() {
 
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         Task notMethod = new Task();
         notMethod.setTaskName("Task Testing");
         notMethod.setId(1);
@@ -56,6 +50,7 @@ public class TaskControllerTest {
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         Task notMethod = new Task();
         notMethod.setTaskName("Task Testing");
         notMethod.setId(1);
@@ -75,9 +70,9 @@ public class TaskControllerTest {
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         Task notMethod = new Task();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
-        Date tempDate = formatter.parse("2022-02-07");
+        LocalDate tempDate = LocalDate.parse("2022-02-07");
         notMethod.setDate(tempDate);
         notMethod.setTaskName("Task Testing");
         notMethod.setId(1);
@@ -95,9 +90,9 @@ public class TaskControllerTest {
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         Task notMethod = new Task();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
-        Date tempDate = formatter.parse("2022-02-07");
+        LocalDate tempDate = LocalDate.parse("2022-02-07");
         notMethod.setDate(tempDate);
         notMethod.setTaskName("Task Testing");
         notMethod.setId(1);
@@ -116,6 +111,7 @@ public class TaskControllerTest {
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         Task test = new Task("Test");
         testControl.getAllTasks().add(test);
 
@@ -136,6 +132,7 @@ public class TaskControllerTest {
         // Note: Tested and passes with call to database commented out
 
         // Arrange
+        testControl = new TaskController();
         testControl.CreateTask("Incorrect Name");
         Task toEdit = testControl.getAllTasks().get(0);
         String initalVal = toEdit.toString();
@@ -152,6 +149,7 @@ public class TaskControllerTest {
     @Test
     public void testFindTaskById() {
         // Arrange
+        testControl = new TaskController();
         testControl.CreateTask("FindMe");
 
         // Act
@@ -173,6 +171,7 @@ public class TaskControllerTest {
 
         // Arrange
         testControl = new TaskController();
+        testControl = new TaskController();
         String dirPath = "./tmp";
         File f = new File(dirPath);
 
@@ -190,6 +189,7 @@ public class TaskControllerTest {
 
         // Arrange
         testControl = new TaskController();
+        testControl = new TaskController();
         String dirPath = "./tmp/TaskSingleton.ser";
         File f = new File(dirPath);
 
@@ -203,12 +203,27 @@ public class TaskControllerTest {
     // Manual Testing done for method ReadSerializable
 
     @Test
-    public void testSortTask() {
+    public void testSortTask() throws ParseException {
         // Arrange
+        testControl = new TaskController();
+        LocalDate tempDate = LocalDate.parse("2022-02-15");
+        testControl.CreateTask("task1", tempDate);
+        tempDate = LocalDate.parse("2022-02-07");
+        testControl.CreateTask("task2", tempDate);
+        tempDate = LocalDate.parse("2022-03-26");
+        testControl.CreateTask("task3", tempDate);
 
         // Act
+        String actual = "";
+        testControl.SortTask();
+        for (Task task : testControl.getAllTasks()){
+            actual += task.toString();
+            actual += " | ";
+        }
+        String expected = "Task 3: task3 - Due: 2022-03-26 | Task 1: task1 - Due: 2022-02-15 | Task 2: task2 - Due: 2022-02-07 | ";
 
         // Assert
+        assertEquals(actual, expected);
     }
 
     @Before
