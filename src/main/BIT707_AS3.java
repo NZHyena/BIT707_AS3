@@ -39,8 +39,6 @@ public class BIT707_AS3 {
         for (Task ta : controller.getAllTasks()) {
             System.out.println(controller.DisplayTask(ta));
         }
-
-        controller.DeleteTask(controller.FindTaskById(8));
         
         controller.WriteSerializable();
     }
