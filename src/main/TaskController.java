@@ -57,25 +57,25 @@ public class TaskController {
     public void CreateTask(String taskName){
         Task tmp = new Task(taskName);
         allTasks.add(tmp);
-        //db.CreateTask(tmp.getId(), tmp.getTaskName());
+        db.CreateTask(tmp.getId(), tmp.getTaskName());
     }
     
     public void CreateTask(String taskName, String details){
         Task tmp = new Task(taskName, details);
         allTasks.add(tmp);
-        // db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
     }
     
     public void CreateTask(String taskName, String details, LocalDate date){
         Task tmp = new Task(taskName, details, date);
         allTasks.add(tmp);
-        // db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), (java.sql.Date)tmp.getDate());
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), tmp.getDate());
     }
 
     public void CreateTask(String taskName, LocalDate date){
         Task tmp = new Task(taskName, date);
         allTasks.add(tmp);
-        //db.CreateTask(tmp.getId(), tmp.getTaskName(), (java.sql.Date)tmp.getDate());
+        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDate());
     }
     
     public void DeleteTask(Task ta){
@@ -85,15 +85,15 @@ public class TaskController {
     
     public void EditTask(int id, String taskName, String details, String date){
         FindTaskById(id).setTaskName(taskName);
-        //db.UpdateTaskName(id, taskName);
+        db.UpdateTaskName(id, taskName);
         if(!details.isEmpty())
             FindTaskById(id).setDetails(details);
-            //db.UpdateTaskDetails(id, details);
+            db.UpdateTaskDetails(id, details);
         if(!date.isEmpty()){
             try {
                 LocalDate tempDate = LocalDate.parse(date);
                 FindTaskById(id).setDate(tempDate);
-                //db.UpdateTaskDate(id, (java.sql.Date) tempDate);
+                db.UpdateTaskDate(id, tempDate);
             } catch (Exception e) {
                 e.printStackTrace();
             }
