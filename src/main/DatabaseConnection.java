@@ -1,5 +1,6 @@
 package main;
 import java.sql.*;
+import java.time.LocalDate;
 
 /*
  * Copyright (C) 2022 user
@@ -27,6 +28,8 @@ import java.sql.*;
  *
  * @author user
  */
+
+// Note: Class does not work in testing as a part of the /test/
 public final class DatabaseConnection {
     // Initializing required SQLite variable
         Connection c = null;
@@ -138,12 +141,12 @@ public final class DatabaseConnection {
             ExecuteUpdate(query);
         }
 
-        public void CreateTask(int id, String taskName, Date date){
+        public void CreateTask(int id, String taskName, LocalDate date){
             String query = String.format("INSERT INTO Task (taskNumber, taskName, date) Values (%d, '%s', %t);", id, taskName, date);
             ExecuteUpdate(query);
         }
 
-        public void CreateTask(int id, String taskName, String details, Date date){
+        public void CreateTask(int id, String taskName, String details, LocalDate date){
             String query = String.format("INSERT INTO Task (taskNumber, taskName, details, date) Values (%d, '%s', '%s', %t);", id, taskName, details, date);
             ExecuteUpdate(query);
         }
@@ -158,7 +161,7 @@ public final class DatabaseConnection {
             ExecuteUpdate(query);
         }
 
-        public void UpdateTaskDate(int id, Date date){
+        public void UpdateTaskDate(int id, LocalDate date){
             String query = String.format("UPDATE Task SET date = %t WHERE taskNumber = %d;", id, date);
             ExecuteUpdate(query);
         }
