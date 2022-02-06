@@ -42,13 +42,12 @@ public class TaskController {
     
     // TODO: Look into using java.time.date instead of java.utli.date
     // TODO: Comment everything
-    // TODO: Test Everything
-        // TODO: Test against Test Plan
     // TODO: Create method to Check all tasks against all database entries when app closes
+    // TODO: Create Observer using EventListener
 
     private List<Task> allTasks;
     private final DatabaseConnection db = new DatabaseConnection();
-    
+
     public TaskController(){
         allTasks = new ArrayList<Task>(); 
     }
