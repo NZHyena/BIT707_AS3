@@ -94,39 +94,6 @@ public final class DatabaseConnection implements TaskListener{
             ResultSet out = ExecuteRequest("SELECT * FROM Task;");
             return out;
         }
-
-        public ResultSet SelectTaskById(int id){
-            String request = String.format("SELECT * FROM Task WHERE taskNumber = %d", id);
-            ResultSet out =  ExecuteRequest(request);
-            return out;
-        }
-
-        public ResultSet SelectTasksByName(String taskName){
-            String request = String.format("SELECT * FROM Task WHERE taskName LIKE '%s'", taskName);
-            ResultSet out =  ExecuteRequest(request);
-            return out;
-        }
-
-        public ResultSet SelectTasksByDate(Date date){
-            String request = String.format("SELECT * From Task WHERE date = '%tF'", date);
-            ResultSet out =  ExecuteRequest(request);
-            return out;
-        }
-
-        public ResultSet SelectTasksBetweenDates(Date date1, Date date2){
-            String request;
-            if(date1.before(date2)){
-                request = String.format("SELECT * FROM Task WHERE date BETWEEN '%tF' and '%tF'", date1, date2);
-            }
-            else if(date1.equals(date2)){
-                request = String.format("SELECT * From Task WHERE date = '%tF'", date1);
-            }
-            else {
-                request = String.format("SELECT * FROM Task WHERE date BETWEEN '%tF' and '%tF'", date2, date1);
-            }
-            ResultSet out =  ExecuteRequest(request);
-            return out;
-        }
         
         public void DeleteTask(int id){
             String query = String.format("DELETE FROM Task WHERE taskNumber = %d", id);

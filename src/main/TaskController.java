@@ -150,7 +150,60 @@ public class TaskController {
         }
         return foundTasks;
     }
+
+    public List<Task> FindTasksByDate(LocalDate date){
+        List<Task> foundTasks = new ArrayList<Task>();
+        for (Task t: allTasks){
+            if (t.getDate().equals(date))
+                foundTasks.add(t);
+        }
+        return foundTasks;
+    }
     
+    public List<Task> FindTasksBetweenDates(LocalDate date1, LocalDate date2){
+        List<Task> foundTasks = new ArrayList<Task>();
+        boolean filpDates = false;
+        if (date1.isAfter(date2))
+            filpDates = true;
+        else if(date1.equals(date2)){
+            return FindTasksByDate(date1);
+        }
+
+            SortTask();
+
+        for (Task t: allTasks){
+            if (t.getDate() == null)
+                continue;
+            
+            if (filpDates){
+                if(t.getDate().isBefore(date2)){
+                    break;
+                }
+                
+                if (t.getDate().equals(date2) || t.getDate().equals(date1)) {
+                    foundTasks.add(t);
+                }
+                else if (t.getDate().isAfter(date2) && t.getDate().isBefore(date1)) {
+                    foundTasks.add(t);
+                }
+            }
+            else{
+                if(t.getDate().isBefore(date1)){
+                    break;
+                }
+
+                if (t.getDate().equals(date1) || t.getDate().equals(date2)) {
+                    foundTasks.add(t);
+                }
+                else if (t.getDate().isAfter(date1) && t.getDate().isBefore(date2)) {
+                    foundTasks.add(t);
+                }
+            }
+        }
+
+        return foundTasks;
+    }
+
     public void SortTask(){
         Collections.sort(allTasks);
         for (TaskListener tl : listeners) {
