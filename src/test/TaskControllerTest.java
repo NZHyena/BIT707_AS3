@@ -162,6 +162,10 @@ public class TaskControllerTest {
 
     // Manual Testing done for method FindTasksByName
 
+    // Manual Testing done for method FindTasksByDate
+
+    // Manual Testing done for method FindTasksBetweenDates
+
     // Manual Testing done for method LoadAllTasks
 
     @Test
