@@ -45,9 +45,21 @@ public class TaskController {
 
     private List<Task> allTasks;
     private final DatabaseConnection db = new DatabaseConnection();
+    private List<TaskListener> listeners = new ArrayList<TaskListener>();
+
+    public void addListener(TaskListener toAdd){
+        listeners.add(toAdd);
+    }
+
+    public void notifyEdit(int id, String...updates){
+        for (TaskListener tl :listeners){
+            tl.TaskUpdated(id, updates);
+        }
+    }
 
     public TaskController(){
-        allTasks = new ArrayList<Task>(); 
+        allTasks = new ArrayList<Task>();
+        addListener(db);
     }
 
     public List<Task> getAllTasks(){
@@ -57,48 +69,65 @@ public class TaskController {
     public void CreateTask(String taskName){
         Task tmp = new Task(taskName);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName());
+        for (TaskListener tl : listeners) {
+            tl.TaskCreated(tmp.getId(), null, tmp.getTaskName());
+        }
     }
     
     public void CreateTask(String taskName, String details){
         Task tmp = new Task(taskName, details);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails());
+        for (TaskListener tl : listeners) {
+            tl.TaskCreated(tmp.getId(), null, tmp.getTaskName(), tmp.getDetails());
+        }
     }
     
     public void CreateTask(String taskName, String details, LocalDate date){
         Task tmp = new Task(taskName, details, date);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDetails(), tmp.getDate());
+        for (TaskListener tl : listeners) {
+            tl.TaskCreated(tmp.getId(), tmp.getDate(), tmp.getTaskName(), tmp.getDetails());
+        }
     }
 
     public void CreateTask(String taskName, LocalDate date){
         Task tmp = new Task(taskName, date);
         allTasks.add(tmp);
-        db.CreateTask(tmp.getId(), tmp.getTaskName(), tmp.getDate());
+        for (TaskListener tl : listeners) {
+            tl.TaskCreated(tmp.getId(), tmp.getDate(), tmp.getTaskName());
+        }
     }
     
     public void DeleteTask(Task ta){
         allTasks.remove(ta);
-        db.DeleteTask(ta.getId());
+        for (TaskListener tl : listeners) {
+            tl.TaskDeleted(ta.getId());
+        }
     }
     
     public void EditTask(int id, String taskName, String details, String date){
-        FindTaskById(id).setTaskName(taskName);
-        db.UpdateTaskName(id, taskName);
-        if(!details.isEmpty())
+        if (details.isEmpty() && date.isEmpty()){
+            FindTaskById(id).setTaskName(taskName);
+            notifyEdit(id, taskName);
+        }
+        else if (!details.isEmpty() && !date.isEmpty()){
             FindTaskById(id).setDetails(details);
-            db.UpdateTaskDetails(id, details);
-        if(!date.isEmpty()){
-            try {
+            LocalDate tempDate = LocalDate.parse(date);
+            FindTaskById(id).setDate(tempDate);
+            notifyEdit(id, taskName, details, date);
+        }
+        else{
+            if(!details.isEmpty()){
+                FindTaskById(id).setDetails(details);
+                notifyEdit(id, taskName, details);
+            }
+            else{
                 LocalDate tempDate = LocalDate.parse(date);
                 FindTaskById(id).setDate(tempDate);
-                db.UpdateTaskDate(id, tempDate);
-            } catch (Exception e) {
-                e.printStackTrace();
+                notifyEdit(id, taskName, "", date);
+                }
             }
         }
-    }
     
     public String DisplayTask(Task ta){
         return ta.toString();
@@ -124,6 +153,9 @@ public class TaskController {
     
     public void SortTask(){
         Collections.sort(allTasks);
+        for (TaskListener tl : listeners) {
+            tl.RequestRefresh();
+        }
     }
     
     /// <summary>
@@ -139,6 +171,7 @@ public class TaskController {
             while(results.next()){
                 tmp = new Task();
                 tmp.setId(results.getInt("taskNumber"));
+                TaskSingleton.getInstance().setId(results.getInt("taskNumber"));
                 tmp.setTaskName(results.getString("taskName"));
                 
                 if(results.getString("details") != null){
@@ -208,4 +241,11 @@ public class TaskController {
             return;
         }
     }
+}
+
+interface TaskListener {
+    void TaskCreated(int id, LocalDate date, String...created);
+    void TaskUpdated(int id, String...updates);
+    void TaskDeleted(int taskId);
+    void RequestRefresh();
 }
