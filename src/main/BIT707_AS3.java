@@ -39,20 +39,13 @@ public class BIT707_AS3 {
         controller.InitialLoad();
         controller.LoadAllTasks();
 
-        LocalDate date1 = LocalDate.now();
-        LocalDate date2 = date1.plusDays(1);
-
-        controller.CreateTask("dateTest1", date2);
-        controller.CreateTask("dateTest2", date1);
-        controller.CreateTask("dateTest3", date2);
+        LocalDate date = LocalDate.now();
 
 
-        List<Task> found = controller.FindTasksByDate(date2);
+        controller.CreateTask("UpdateName", "UpdateDetails", date);
 
-        for (Task t: found){
-            System.out.println(t.toString());
-        }
-        
+        controller.EditTask(3, "UpdatedName", "UpdatedDetails", "2022-02-09");
+
         controller.WriteSerializable();
     }
     
