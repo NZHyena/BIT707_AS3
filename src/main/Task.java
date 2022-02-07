@@ -110,7 +110,9 @@ public class Task implements Comparable<Task>{
     }
     
     public int compareTo(Task ta){
-        if(this.date == ta.date)
+        if(ta.date == (null)) // If nulls end up at top of list then return -1
+            return -1;
+        else if(this.date.equals(ta.date))
             return 0;
         else if (this.date.isBefore(ta.date))
             return 1;
