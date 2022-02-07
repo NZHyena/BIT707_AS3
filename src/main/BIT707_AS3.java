@@ -21,6 +21,8 @@ package main;
  * This is the work of a student and follows the principles of academic integrity set by the Open Polytech
  */
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Grant Docherty - 5032768
@@ -35,6 +37,14 @@ public class BIT707_AS3 {
 
         controller.InitialLoad();
         controller.LoadAllTasks();
+
+        controller.CreateTask("ListenerTest1");
+
+        controller.CreateTask("ListenerTest2", "Has Details");
+
+        controller.CreateTask("ListenerTest3", "Has Details and Date", LocalDate.parse("2022-07-24"));
+
+        controller.CreateTask("ListenerTest4", LocalDate.now());
 
         for (Task ta : controller.getAllTasks()) {
             System.out.println(controller.DisplayTask(ta));
