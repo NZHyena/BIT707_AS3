@@ -121,17 +121,17 @@ public final class DatabaseConnection implements TaskListener{
         }
         
         public void UpdateTaskName(int id, String taskName){
-            String query = String.format("UPDATE Task SET taskName = '%s' WHERE taskNumber = %d;", id, taskName);
+            String query = String.format("UPDATE Task SET taskName = '%s' WHERE taskNumber = %d;", taskName, id);
             ExecuteUpdate(query);
         }
 
         public void UpdateTaskDetails(int id, String details){
-            String query = String.format("UPDATE Task SET details = '%s' WHERE taskNumber = %d;", id, details);
+            String query = String.format("UPDATE Task SET details = '%s' WHERE taskNumber = %d;", details, id);
             ExecuteUpdate(query);
         }
 
         public void UpdateTaskDate(int id, LocalDate date){
-            String query = String.format("UPDATE Task SET date = %t WHERE taskNumber = %d;", id, date);
+            String query = String.format("UPDATE Task SET date = '%tF' WHERE taskNumber = '%d';", date, id);
             ExecuteUpdate(query);
         }
         
