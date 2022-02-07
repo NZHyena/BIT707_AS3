@@ -112,7 +112,7 @@ public class Task implements Comparable<Task>{
     public int compareTo(Task ta){
         if(this.date == ta.date)
             return 0;
-        else if (this.date.isBefore(ta.date)) // Flip this if date ordering is incorrect
+        else if (this.date.isBefore(ta.date))
             return 1;
         else
             return -1;
