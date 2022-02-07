@@ -30,7 +30,7 @@ import java.time.LocalDate;
  */
 
 // Note: Class does not work in testing as a part of the /test/
-public final class DatabaseConnection {
+public final class DatabaseConnection implements TaskListener{
     // Initializing required SQLite variable
         Connection c = null;
         Statement stmt = null;
@@ -108,20 +108,20 @@ public final class DatabaseConnection {
         }
 
         public ResultSet SelectTasksByDate(Date date){
-            String request = String.format("SELECT * From Task WHERE date = %t", date);
+            String request = String.format("SELECT * From Task WHERE date = '%tF'", date);
             return ExecuteRequest(request);
         }
 
         public ResultSet SelectTasksBetweenDates(Date date1, Date date2){
             String request;
             if(date1.before(date2)){
-                request = String.format("SELECT * FROM Task WHERE date BETWEEN %t and %t", date1, date2);
+                request = String.format("SELECT * FROM Task WHERE date BETWEEN '%tF' and '%tF'", date1, date2);
             }
             else if(date1.equals(date2)){
-                request = String.format("SELECT * From Task WHERE date = %t", date1);
+                request = String.format("SELECT * From Task WHERE date = '%tF'", date1);
             }
             else {
-                request = String.format("SELECT * FROM Task WHERE date BETWEEN %t and %t", date2, date1);
+                request = String.format("SELECT * FROM Task WHERE date BETWEEN '%tF' and '%tF'", date2, date1);
             }
             return ExecuteRequest(request);
         }
@@ -142,12 +142,12 @@ public final class DatabaseConnection {
         }
 
         public void CreateTask(int id, String taskName, LocalDate date){
-            String query = String.format("INSERT INTO Task (taskNumber, taskName, date) Values (%d, '%s', %t);", id, taskName, date);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName, date) Values (%d, '%s', '%tF');", id, taskName, date);
             ExecuteUpdate(query);
         }
 
         public void CreateTask(int id, String taskName, String details, LocalDate date){
-            String query = String.format("INSERT INTO Task (taskNumber, taskName, details, date) Values (%d, '%s', '%s', %t);", id, taskName, details, date);
+            String query = String.format("INSERT INTO Task (taskNumber, taskName, details, date) Values (%d, '%s', '%s', '%tF');", id, taskName, details, date);
             ExecuteUpdate(query);
         }
         
@@ -180,5 +180,64 @@ public final class DatabaseConnection {
                 System.exit(0);
 
             } // End of Catch exception handling
+        }
+
+        @Override
+        public void TaskCreated(int id, LocalDate date, String... created) {
+            int createdLength = created.length;
+            if (date != null){
+                switch (createdLength){
+                    case 1:
+                        CreateTask(id, created[0], date);
+                        break;
+                    case 2:
+                        CreateTask(id, created[0], created[1], date);
+                        break;
+                }
+            }
+            else {
+                switch (createdLength){
+                    case 1:
+                        CreateTask(id, created[0]);
+                        break;
+                    case 2:
+                        CreateTask(id, created[0], created[1]);
+                        break;
+                }
+            }
+            
+        }
+
+        @Override
+        public void TaskUpdated(int id, String... updates) {
+            int updateLength = updates.length;
+
+            switch (updateLength){
+                case 1:
+                    UpdateTaskName(id, updates[0]);
+                    break;
+                case 2:
+                    UpdateTaskName(id, updates[0]);
+                    UpdateTaskDetails(id, updates[1]);
+                    break;
+                case 3:
+                    UpdateTaskName(id, updates[0]);
+                    if (!updates[1].isEmpty())
+                        UpdateTaskDetails(id, updates[1]);
+                    UpdateTaskDate(id, LocalDate.parse(updates[2]));
+            }
+            
+        }
+
+        @Override
+        public void TaskDeleted(int taskId) {
+            DeleteTask(taskId);
+            
+        }
+
+        @Override
+        public void RequestRefresh() {
+            // TODO Auto-generated method stub
+            
         }
 }
