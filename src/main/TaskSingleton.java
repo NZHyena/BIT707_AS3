@@ -21,6 +21,10 @@ public class TaskSingleton implements java.io.Serializable{
         return instance.nextId;
     }
 
+    public void setId(int id){
+        nextId = id;
+    }
+
     public static void SetInstance(TaskSingleton s){
         instance = s;
     }
