@@ -70,17 +70,15 @@ public final class DatabaseConnection implements TaskListener{
                 // Closing the application
                 System.exit(0);
             } // End of catch exception handling
-            CloseConnection();
         }
 
         public ResultSet ExecuteRequest(String execRequest){
-            Connection();
+                Connection();
             // Start of try exception handling
             try {
                 stmt = c.createStatement();
                 String request = execRequest;
                 result = stmt.executeQuery(request);
-                ResultSet returning = result;
             } catch (Exception e) { // End of try block, Start of catch block
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -94,28 +92,24 @@ public final class DatabaseConnection implements TaskListener{
         
         public ResultSet SelectAllTasks(){
             ResultSet out = ExecuteRequest("SELECT * FROM Task;");
-            CloseConnection();
             return out;
         }
 
         public ResultSet SelectTaskById(int id){
             String request = String.format("SELECT * FROM Task WHERE taskNumber = %d", id);
             ResultSet out =  ExecuteRequest(request);
-            CloseConnection();
             return out;
         }
 
         public ResultSet SelectTasksByName(String taskName){
             String request = String.format("SELECT * FROM Task WHERE taskName LIKE '%s'", taskName);
             ResultSet out =  ExecuteRequest(request);
-            CloseConnection();
             return out;
         }
 
         public ResultSet SelectTasksByDate(Date date){
             String request = String.format("SELECT * From Task WHERE date = '%tF'", date);
             ResultSet out =  ExecuteRequest(request);
-            CloseConnection();
             return out;
         }
 
@@ -131,7 +125,6 @@ public final class DatabaseConnection implements TaskListener{
                 request = String.format("SELECT * FROM Task WHERE date BETWEEN '%tF' and '%tF'", date2, date1);
             }
             ResultSet out =  ExecuteRequest(request);
-            CloseConnection();
             return out;
         }
         
