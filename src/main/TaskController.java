@@ -41,7 +41,6 @@ public class TaskController {
     
     // TODO: Comment everything
     // TODO: Create method to Check all tasks against all database entries when app closes
-    // TODO: Create Observer using EventListener
 
     private List<Task> allTasks;
     private final DatabaseConnection db = new DatabaseConnection();
@@ -153,7 +152,15 @@ public class TaskController {
 
     public List<Task> FindTasksByDate(LocalDate date){
         List<Task> foundTasks = new ArrayList<Task>();
+
+        SortTask();
+
         for (Task t: allTasks){
+            if (t.getDate() == null)
+                continue;
+            else if (t.getDate().isBefore(date))
+                break;
+
             if (t.getDate().equals(date))
                 foundTasks.add(t);
         }
@@ -179,7 +186,7 @@ public class TaskController {
                 if(t.getDate().isBefore(date2)){
                     break;
                 }
-                
+
                 if (t.getDate().equals(date2) || t.getDate().equals(date1)) {
                     foundTasks.add(t);
                 }
