@@ -41,17 +41,13 @@ public class BIT707_AS3 {
 
         LocalDate date1 = LocalDate.now();
         LocalDate date2 = date1.plusDays(1);
-        LocalDate date3 = date2.plusDays(1);
-        LocalDate date4 = date3.plusDays(1);
-        LocalDate date5 = date4.plusDays(1);
 
-        controller.CreateTask("dateTest1", date1);
-        controller.CreateTask("dateTest2", date2);
-        controller.CreateTask("dateTest3", date3);
-        controller.CreateTask("dateTest4", date4);
-        controller.CreateTask("dateTest5", date5);
+        controller.CreateTask("dateTest1", date2);
+        controller.CreateTask("dateTest2", date1);
+        controller.CreateTask("dateTest3", date2);
 
-        List<Task> found = controller.FindTasksBetweenDates(date2, date4);
+
+        List<Task> found = controller.FindTasksByDate(date2);
 
         for (Task t: found){
             System.out.println(t.toString());
