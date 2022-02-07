@@ -105,11 +105,11 @@ public class TaskController {
     }
     
     public void EditTask(int id, String taskName, String details, String date){
-        if (details.isEmpty() && date.isEmpty()){
+        if ((details.isEmpty() && date.isEmpty()) || (details == null && date == null)){
             FindTaskById(id).setTaskName(taskName);
             notifyEdit(id, taskName);
         }
-        else if (!details.isEmpty() && !date.isEmpty()){
+        else if (!details.isEmpty() && details != null && !date.isEmpty() && date != null){
             FindTaskById(id).setDetails(details);
             LocalDate tempDate = LocalDate.parse(date);
             FindTaskById(id).setDate(tempDate);
