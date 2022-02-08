@@ -40,7 +40,6 @@ import java.time.LocalDate;
 public class TaskController {
     
     // TODO: Comment everything
-    // TODO: Create method to Check all tasks against all database entries when app closes
 
     private List<Task> allTasks;
     private final DatabaseConnection db = new DatabaseConnection();
