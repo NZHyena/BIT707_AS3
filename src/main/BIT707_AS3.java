@@ -22,7 +22,6 @@ package main;
  */
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  *
@@ -34,19 +33,22 @@ public class BIT707_AS3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TaskController controller = new TaskController();
 
-        controller.InitialLoad();
-        controller.LoadAllTasks();
+        Task day1Week1 = new Task();
+        Task day3Week2 = new Task();
 
-        LocalDate date = LocalDate.now();
+        Task lastDayWeek52 = new Task();
 
+        day1Week1.setDate(LocalDate.parse("2022-01-01"));
+        day3Week2.setDate(LocalDate.parse("2022-01-03"));
+        lastDayWeek52.setDate(LocalDate.parse("2021-12-31"));
+        
+        Task today = new Task();
+        today.setDate(LocalDate.now());
 
-        controller.CreateTask("UpdateName", "UpdateDetails", date);
-
-        controller.EditTask(3, "UpdatedName", "UpdatedDetails", "2022-02-09");
-
-        controller.WriteSerializable();
+        for (int p : today.getCalendarPos()) {
+            System.out.println(p);
+        }
     }
     
 }
