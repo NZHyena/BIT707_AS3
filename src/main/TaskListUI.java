@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 // TODO: Add button to Task Description to Cancel Edit
-// TODO: Fix Size CreateTask
 // TODO: Add Separator
 
 /**
@@ -24,6 +23,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
     private int height;
     private TaskController controller = new TaskController();
     private boolean panelTaskCreate = false;
+    int taskId;
 
     /**
      * Creates new form TaskListUI
@@ -62,6 +62,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
         jScrollPane1 = new javax.swing.JScrollPane();
         InTaskDescript = new javax.swing.JTextArea();
         InDueDate = new javax.swing.JTextField();
+        BtnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -187,6 +188,15 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
         PanelTaskDetails.add(InDueDate);
         InDueDate.setBounds(160, 220, 105, 28);
 
+        BtnCancel.setText("Cancel");
+        PanelTaskDetails.add(BtnCancel);
+        BtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelActionPerformed(evt);
+            }
+        });
+        BtnCancel.setBounds(320, 270, 73, 28);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,36 +222,50 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    protected void BtnCancelActionPerformed(ActionEvent evt) {
+        FnHideDetailPanel();
+    }
+
     protected void BtnCompleteDeleteActionPerformed(ActionEvent evt) {
         // Messagebox to confirm
 
         // On confirm
-        FnHideDetailPanel();
+            // Delete this current task
+            // FnHideDetailPanel();
+        // On Cancel
+            // Leave panel up
     }
 
     protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
-    // TODO: InputHandling
+        // Input Handle/ Check core fields have value
 
-        if(!InTaskDescript.getText().isEmpty() && !InDueDate.getText().isEmpty()){
-            // controller.CreateTask(Handled TaskName, Handled TaskDetails, Handled LocalDate);
-        } else if (!InTaskDescript.getText().isEmpty() || !InDueDate.getText().isEmpty()){
-            if(!InTaskDescript.getText().isEmpty()){
-                // controller.CreateTask(Handled TaskName, Handled TaskDetails);
-            } else {
-                // controller.CreateTask(Handled TaskName, Handled TaskDate)
-            }
-        } else {
-            // controller.CreateTask(Handled TaskName)
-        }
+        // If input handling returns good
+            // Process
+                // If panelTaskCreate is true
+                    //create task
+                // Else
+                    // Edit Task
+            // Hide panel
 
-        FnHideDetailPanel();
+        // Else input handling returns bad
+            // Tell User Why it went poorly
     }
 
     protected void BtnDeleteTaskActionPerformed(ActionEvent evt) {
+        // Loop through all listed pannels
+            // For each that has a tick box
+                // If ticked then confirm delete the task
+                // Delete the task if confirm yes
+                // Continue if pass on delete
+        // Refresh the list
+        FnUpdate();
     }
 
     protected void BtnCalendarViewActionPerformed(ActionEvent evt) {
-
+        // Open calendar view form
+        // CalendarView calendarView = new CalendarView();
+        // calendarView.setVisible(true);
+        this.setVisible(false);
     }
 
     private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,19 +283,23 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
         this.setSize(partSize, height);
         PanelToolbar.setSize(PanelTaskList.getWidth(), PanelToolbar.getHeight());
         PanelTaskDetails.setVisible(false);
-        
+        BtnCompleteDelete.setVisible(false);
+        BtnCancel.setVisible(false);
     }
 
     private void FnAddTaskSetup(){
         panelTaskCreate = true;
-        BtnSaveTask.setText("Create Task & Collapse");
-        BtnCompleteDelete.setText("Cancel");
+        BtnSaveTask.setText("Create Task");
+        BtnCompleteDelete.setVisible(false);
+        BtnCancel.setVisible(true);
     }
 
     private void FnEditTaskSetup(int id){
         panelTaskCreate = false;
-        BtnSaveTask.setText("Save Task & Collapse");
+        BtnSaveTask.setText("Save Task");
         BtnCompleteDelete.setText("Complete/Delete Task");
+        BtnCompleteDelete.setVisible(true);
+        BtnCancel.setVisible(false);
 
         InTaskName.setText(controller.FindTaskById(id).getTaskName());
         InTaskDescript.setText(controller.FindTaskById(id).getDetails());
@@ -281,25 +309,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
 
     }
 
-    private String FnInputHandleName(String name){
-        if (name.isEmpty() || name == null){
-            // TODO Messagebox
-            return null;
-        } else if(name.length() > 50){
-            // TODO Messagebox
-            return null;
-        }
-        return name;
-
-    }
-
-    private String FnInputHandleDetails(String details){
-        if (details.length() > 500){
-            // TODO: Message box
-            return null;
-        }
-            return details;
-    }
+    // TODO: Action for focus or text input length changes
 
     private LocalDate FnInputHandleTaskDate(String date){
         if (date == null || date.isEmpty()){
@@ -335,6 +345,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
     private javax.swing.JTextArea InTaskDescript;
     private javax.swing.JTextField InTaskName;
     private javax.swing.JTextField InDueDate;
+    private javax.swing.JButton BtnCancel;
     // End of variables declaration//GEN-END:variables
 
     @Override
