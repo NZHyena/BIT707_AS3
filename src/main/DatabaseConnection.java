@@ -131,7 +131,7 @@ public final class DatabaseConnection implements TaskListener{
         }
 
         public void UpdateTaskDate(int id, LocalDate date){
-            String query = String.format("UPDATE Task SET date = '%tF' WHERE taskNumber = '%d';", date, id);
+            String query = String.format("UPDATE Task SET date = '%tF' WHERE taskNumber = %d;", date, id);
             ExecuteUpdate(query);
         }
         
