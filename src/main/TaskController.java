@@ -71,6 +71,7 @@ public class TaskController {
         for (TaskListener tl : listeners) {
             tl.TaskCreated(tmp.getId(), null, tmp.getTaskName());
         }
+        WriteSerializable();
     }
     
     public void CreateTask(String taskName, String details){
@@ -79,6 +80,7 @@ public class TaskController {
         for (TaskListener tl : listeners) {
             tl.TaskCreated(tmp.getId(), null, tmp.getTaskName(), tmp.getDetails());
         }
+        WriteSerializable();
     }
     
     public void CreateTask(String taskName, String details, LocalDate date){
@@ -87,6 +89,7 @@ public class TaskController {
         for (TaskListener tl : listeners) {
             tl.TaskCreated(tmp.getId(), tmp.getDate(), tmp.getTaskName(), tmp.getDetails());
         }
+        WriteSerializable();
     }
 
     public void CreateTask(String taskName, LocalDate date){
@@ -95,6 +98,7 @@ public class TaskController {
         for (TaskListener tl : listeners) {
             tl.TaskCreated(tmp.getId(), tmp.getDate(), tmp.getTaskName());
         }
+        WriteSerializable();
     }
     
     public void DeleteTask(Task ta){
@@ -213,9 +217,6 @@ public class TaskController {
 
     public void SortTask(){
         Collections.sort(allTasks);
-        for (TaskListener tl : listeners) {
-            tl.RequestRefresh();
-        }
     }
     
     /// <summary>
