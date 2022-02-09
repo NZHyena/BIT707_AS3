@@ -138,9 +138,6 @@ public class Task implements Comparable<Task>{
             yearStartsOn = LocalDate.parse(yearPos+"-01-01").getDayOfWeek();
             weekPos = date.getDayOfYear();
 
-            // TODO: Finish This
-                // If the year starts on a saturday, then the second week of the year begins on a saturday
-                // Whereas we want second week to begin on monday where currently it will belong to week one still
             switch(yearStartsOn){
                 case SATURDAY:
                     weekPos += 5;
