@@ -145,6 +145,7 @@ public final class DatabaseConnection implements TaskListener{
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
+                // TODO: Deal With this
                 // Closing the application
                 System.exit(0);
 
