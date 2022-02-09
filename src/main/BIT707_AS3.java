@@ -21,7 +21,6 @@ package main;
  * This is the work of a student and follows the principles of academic integrity set by the Open Polytech
  */
 
-import java.time.LocalDate;
 
 /**
  *
@@ -34,21 +33,35 @@ public class BIT707_AS3 {
      */
     public static void main(String[] args) {
 
-        Task day1Week1 = new Task();
-        Task day3Week2 = new Task();
-
-        Task lastDayWeek52 = new Task();
-
-        day1Week1.setDate(LocalDate.parse("2022-01-01"));
-        day3Week2.setDate(LocalDate.parse("2022-01-03"));
-        lastDayWeek52.setDate(LocalDate.parse("2021-12-31"));
-        
-        Task today = new Task();
-        today.setDate(LocalDate.now());
-
-        for (int p : today.getCalendarPos()) {
-            System.out.println(p);
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TaskListUI().setVisible(true);
+            }
+        });
+
     }
-    
 }
