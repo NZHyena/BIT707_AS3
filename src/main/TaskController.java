@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 /*
@@ -299,6 +300,95 @@ public class TaskController {
             c.printStackTrace();
             return;
         }
+    }
+
+    public int[] getCalendarPos(LocalDate date){
+        int[] position = new int[3];
+        int dayPos;
+        int weekPos;
+        int yearPos;
+        DayOfWeek yearStartsOn;
+
+        if (date == null){
+            dayPos = 0;
+            weekPos = 0;
+            yearPos = 0;
+        }
+        else{
+            yearPos = date.getYear();
+            yearStartsOn = LocalDate.parse(yearPos+"-01-01").getDayOfWeek();
+            weekPos = date.getDayOfYear();
+
+            switch(yearStartsOn){
+                case SATURDAY:
+                    weekPos += 5;
+                    break;
+                case SUNDAY:
+                     weekPos += 6;
+                    break;
+                case MONDAY:
+                    weekPos += 0;
+                    break;
+                case TUESDAY:
+                weekPos += 1;
+                    break;
+                case WEDNESDAY:
+                weekPos += 2;
+                    break;
+                case THURSDAY:
+                    weekPos += 3;
+                    break;
+                case FRIDAY: 
+                    weekPos += 4;
+                    break;
+                default:
+                    break;
+            }
+
+            weekPos /= 7;
+
+            switch(date.getDayOfWeek()){
+                case SUNDAY:
+                    dayPos = 1;
+                    break;
+                case MONDAY:
+                    dayPos = 2;
+                    break;
+                case TUESDAY:
+                    dayPos = 3;
+                    break;
+                case WEDNESDAY:
+                    dayPos = 4;
+                    break;
+                case THURSDAY:
+                    dayPos = 5;
+                    break;
+                case FRIDAY:
+                    dayPos = 6;
+                    break;
+                case SATURDAY:
+                    dayPos = 7;
+                    break;
+                default:
+                    dayPos =0;
+                    break;
+            }
+
+            if(weekPos < 1){
+                yearPos -= 1;
+                weekPos = 52;
+            }
+            else if (weekPos > 52){
+                yearPos += 1;
+                weekPos = 0;
+            }
+        }
+
+        position[0] = yearPos;
+        position[1] = weekPos;
+        position[2] = dayPos;
+
+        return position;        
     }
 }
 
