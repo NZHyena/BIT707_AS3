@@ -13,16 +13,19 @@ import javax.swing.border.Border;
  */
 public class TaskListUI extends javax.swing.JFrame {
 
-    Border emptyBorder = BorderFactory.createEmptyBorder();
+    int fullSize;
+    int partSize;
 
     /**
      * Creates new form TaskListUI
      */
     public TaskListUI() {
         initComponents();
-        jButton1.setBorder(emptyBorder);
-        jButton2.setBorder(emptyBorder);
-        jButton3.setBorder(emptyBorder);
+
+        PanelTaskDetails.setVisible(false);
+        fullSize = this.getWidth();
+        partSize = fullSize - PanelTaskDetails.getWidth();
+        this.setSize(partSize, this.getHeight());
     }
 
     /**
@@ -34,212 +37,141 @@ public class TaskListUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        PanelToolbar = new javax.swing.JPanel();
+        BtnDeleteTask = new javax.swing.JButton();
+        BtnCalendarView = new javax.swing.JButton();
+        BtnAddTask = new javax.swing.JButton();
+        PanelTaskList = new javax.swing.JPanel();
+        PanelTaskDetails = new javax.swing.JPanel();
+        LblTaskName = new javax.swing.JLabel();
+        LblTaskDescript = new javax.swing.JLabel();
+        LblDueDate = new javax.swing.JLabel();
+        BtnSaveTask = new javax.swing.JButton();
+        BtnCompleteDelete = new javax.swing.JButton();
+        InTaskName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        InTaskDescript = new javax.swing.JTextArea();
+        InDueDate = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setName("To Do List"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(768, 400));
 
-        jPanel1.setName("PanelTools"); // NOI18N
-        jPanel1.setPreferredSize(new java.awt.Dimension(760, 35));
+        PanelToolbar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PanelToolbar.setName("PanelTools"); // NOI18N
+        PanelToolbar.setPreferredSize(new java.awt.Dimension(760, 35));
+        PanelToolbar.setLayout(null);
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icons8-remove-24.png"))); // NOI18N
-        jButton2.setBorder(emptyBorder);
-        jButton2.setName("BtnDeleteTask"); // NOI18N
+        BtnDeleteTask.setBackground(new java.awt.Color(255, 255, 255));
+        BtnDeleteTask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/icons8-remove-24.png"))); // NOI18N
+        BtnDeleteTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnDeleteTask.setBorderPainted(false);
+        BtnDeleteTask.setName("BtnDeleteTask"); // NOI18N
+        PanelToolbar.add(BtnDeleteTask);
+        BtnDeleteTask.setBounds(60, 5, 30, 30);
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icons8-calendar-24.png"))); // NOI18N
-        jButton3.setBorder(emptyBorder);
-        jButton3.setName("BtnCalendarView"); // NOI18N
+        BtnCalendarView.setBackground(new java.awt.Color(255, 255, 255));
+        BtnCalendarView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/icons8-calendar-24.png"))); // NOI18N
+        BtnCalendarView.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnCalendarView.setBorderPainted(false);
+        BtnCalendarView.setName("BtnCalendarView"); // NOI18N
+        PanelToolbar.add(BtnCalendarView);
+        BtnCalendarView.setBounds(275, 5, 30, 30);
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/icons8-plus-math-24.png"))); // NOI18N
-        jButton1.setBorder(emptyBorder);
-        jButton1.setName("BtnAddTask"); // NOI18N
+        BtnAddTask.setBackground(new java.awt.Color(255, 255, 255));
+        BtnAddTask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/icons8-plus-math-24.png"))); // NOI18N
+        BtnAddTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnAddTask.setBorderPainted(false);
+        BtnAddTask.setName("BtnAddTask"); // NOI18N
+        PanelToolbar.add(BtnAddTask);
+        BtnAddTask.setBounds(10, 5, 30, 30);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        PanelTaskList.setName("PanelTaskList"); // NOI18N
+        PanelTaskList.setPreferredSize(new java.awt.Dimension(300, 550));
 
-        jPanel2.setName("PanelTaskList"); // NOI18N
-        jPanel2.setPreferredSize(new java.awt.Dimension(300, 550));
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setName("TaskList"); // NOI18N
-        jScrollPane2.setViewportView(jList1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(PanelTaskList);
+        PanelTaskList.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGap(0, 312, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addGap(0, 391, Short.MAX_VALUE)
         );
 
-        jPanel3.setName("PanelTaskDetail"); // NOI18N
-        jPanel3.setPreferredSize(new java.awt.Dimension(450, 550));
+        PanelTaskDetails.setBorder(null);
+        PanelTaskDetails.setName("PanelTaskDetail"); // NOI18N
+        PanelTaskDetails.setPreferredSize(new java.awt.Dimension(450, 550));
+        PanelTaskDetails.setLayout(null);
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setLabelFor(jTextField1);
-        jLabel1.setText("Task Name:");
-        jLabel1.setName("LblTaskName"); // NOI18N
+        LblTaskName.setForeground(new java.awt.Color(0, 0, 0));
+        LblTaskName.setLabelFor(InTaskName);
+        LblTaskName.setText("Task Name:");
+        LblTaskName.setName("LblTaskName"); // NOI18N
+        PanelTaskDetails.add(LblTaskName);
+        LblTaskName.setBounds(30, 30, 67, 16);
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setLabelFor(jTextArea1);
-        jLabel2.setText("Task Description:");
-        jLabel2.setName("LblTaskDescription"); // NOI18N
+        LblTaskDescript.setForeground(new java.awt.Color(0, 0, 0));
+        LblTaskDescript.setLabelFor(InTaskDescript);
+        LblTaskDescript.setText("Task Description:");
+        LblTaskDescript.setName("LblTaskDescription"); // NOI18N
+        PanelTaskDetails.add(LblTaskDescript);
+        LblTaskDescript.setBounds(30, 60, 96, 16);
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Due Date:");
-        jLabel3.setName("LblDueDate"); // NOI18N
+        LblDueDate.setForeground(new java.awt.Color(0, 0, 0));
+        LblDueDate.setText("Due Date:");
+        LblDueDate.setName("LblDueDate"); // NOI18N
+        PanelTaskDetails.add(LblDueDate);
+        LblDueDate.setBounds(180, 200, 55, 16);
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Due Time:");
-        jLabel4.setName("LblDueTime"); // NOI18N
+        BtnSaveTask.setText("Save & Collapse");
+        BtnSaveTask.setName("BtnSaveTask"); // NOI18N
+        PanelTaskDetails.add(BtnSaveTask);
+        BtnSaveTask.setBounds(30, 270, 119, 28);
 
-        jButton4.setText("Save & Collapse");
-        jButton4.setName("BtnSaveTask"); // NOI18N
+        BtnCompleteDelete.setText("Complete/Delete");
+        BtnCompleteDelete.setName("BtnDeleteTask"); // NOI18N
+        PanelTaskDetails.add(BtnCompleteDelete);
+        BtnCompleteDelete.setBounds(270, 270, 121, 28);
 
-        jButton5.setText("Complete/Delete");
-        jButton5.setName("BtnDeleteTask"); // NOI18N
+        InTaskName.setName("InTaskName"); // NOI18N
+        PanelTaskDetails.add(InTaskName);
+        InTaskName.setBounds(110, 20, 282, 28);
 
-        jTextField1.setText("jTextField1");
-        jTextField1.setName("InTaskName"); // NOI18N
+        InTaskDescript.setColumns(20);
+        InTaskDescript.setRows(5);
+        InTaskDescript.setName("InTaskDetails"); // NOI18N
+        jScrollPane1.setViewportView(InTaskDescript);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setName("InTaskDetails"); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
+        PanelTaskDetails.add(jScrollPane1);
+        jScrollPane1.setBounds(30, 80, 361, 98);
 
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(125, 125, 125)
-                                .addComponent(jLabel4))
-                            .addComponent(jLabel2))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
-                                .addComponent(jButton5)))
-                        .addGap(38, 38, 38))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(116, 116, 116)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addGap(114, 114, 114))
-        );
+        InDueDate.setText("dd/mm/yyyy");
+        PanelTaskDetails.add(InDueDate);
+        InDueDate.setBounds(160, 220, 105, 28);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PanelToolbar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(PanelTaskList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelTaskDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelToolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(PanelTaskDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                    .addComponent(PanelTaskList, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)))
         );
 
         pack();
@@ -281,24 +213,20 @@ public class TaskListUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton BtnAddTask;
+    private javax.swing.JButton BtnDeleteTask;
+    private javax.swing.JButton BtnCalendarView;
+    private javax.swing.JButton BtnSaveTask;
+    private javax.swing.JButton BtnCompleteDelete;
+    private javax.swing.JLabel LblTaskName;
+    private javax.swing.JLabel LblTaskDescript;
+    private javax.swing.JLabel LblDueDate;
+    private javax.swing.JPanel PanelToolbar;
+    private javax.swing.JPanel PanelTaskList;
+    private javax.swing.JPanel PanelTaskDetails;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextArea InTaskDescript;
+    private javax.swing.JTextField InTaskName;
+    private javax.swing.JTextField InDueDate;
     // End of variables declaration//GEN-END:variables
 }
