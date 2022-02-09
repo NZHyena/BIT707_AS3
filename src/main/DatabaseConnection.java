@@ -51,7 +51,7 @@ public final class DatabaseConnection implements TaskListener{
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
-                System.exit(0);
+                //System.exit(0);
 
             } // End of Catch exception handling
         }
@@ -68,7 +68,7 @@ public final class DatabaseConnection implements TaskListener{
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
-                System.exit(0);
+                //System.exit(0);
             } // End of catch exception handling
         }
 
@@ -84,7 +84,7 @@ public final class DatabaseConnection implements TaskListener{
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
-                System.exit(0);
+                //System.exit(0);
 
             } // End of Catch exception handling
             return result;
@@ -147,7 +147,7 @@ public final class DatabaseConnection implements TaskListener{
 
                 // TODO: Deal With this
                 // Closing the application
-                System.exit(0);
+                //System.exit(0);
 
             } // End of Catch exception handling
         }
