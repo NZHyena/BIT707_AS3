@@ -5,6 +5,8 @@
 package main;
 
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 // TODO: Add button to Task Description to Cancel Edit
@@ -21,6 +23,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
     private int partSize;
     private int height;
     private TaskController controller = new TaskController();
+    private boolean panelTaskCreate = false;
 
     /**
      * Creates new form TaskListUI
@@ -217,6 +220,20 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
     }
 
     protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
+    // TODO: InputHandling
+
+        if(!InTaskDescript.getText().isEmpty() && !InDueDate.getText().isEmpty()){
+            // controller.CreateTask(Handled TaskName, Handled TaskDetails, Handled LocalDate);
+        } else if (!InTaskDescript.getText().isEmpty() || !InDueDate.getText().isEmpty()){
+            if(!InTaskDescript.getText().isEmpty()){
+                // controller.CreateTask(Handled TaskName, Handled TaskDetails);
+            } else {
+                // controller.CreateTask(Handled TaskName, Handled TaskDate)
+            }
+        } else {
+            // controller.CreateTask(Handled TaskName)
+        }
+
         FnHideDetailPanel();
     }
 
@@ -227,7 +244,7 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
 
     }
 
-    private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {
         FnShowDetailPanel();
         FnAddTaskSetup();
     }      
@@ -246,11 +263,13 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
     }
 
     private void FnAddTaskSetup(){
+        panelTaskCreate = true;
         BtnSaveTask.setText("Create Task & Collapse");
         BtnCompleteDelete.setText("Cancel");
     }
 
     private void FnEditTaskSetup(int id){
+        panelTaskCreate = false;
         BtnSaveTask.setText("Save Task & Collapse");
         BtnCompleteDelete.setText("Complete/Delete Task");
 
@@ -260,6 +279,43 @@ public class TaskListUI extends javax.swing.JFrame implements TaskListener{
 
     private void FnUpdate(){
 
+    }
+
+    private String FnInputHandleName(String name){
+        if (name.isEmpty() || name == null){
+            // TODO Messagebox
+            return null;
+        } else if(name.length() > 50){
+            // TODO Messagebox
+            return null;
+        }
+        return name;
+
+    }
+
+    private String FnInputHandleDetails(String details){
+        if (details.length() > 500){
+            // TODO: Message box
+            return null;
+        }
+            return details;
+    }
+
+    private LocalDate FnInputHandleTaskDate(String date){
+        if (date == null || date.isEmpty()){
+            return null;
+        }
+
+        SimpleDateFormat format = (date.charAt(2) == '/') ? new SimpleDateFormat("dd/MM/yy")
+                                                          : new SimpleDateFormat("dd-MM-yy");
+
+        try {
+            format.parse(date);
+            return LocalDate.parse(date);
+        } catch (ParseException e) {
+            // TODO: MessageBox here
+        }
+        return null;
     }
 
 
