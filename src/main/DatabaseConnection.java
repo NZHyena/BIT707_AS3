@@ -201,12 +201,10 @@ public final class DatabaseConnection implements TaskListener{
         @Override
         public void TaskDeleted(int taskId) {
             DeleteTask(taskId);
-            
         }
 
         @Override
-        public void RequestRefresh() {
-            // TODO Auto-generated method stub
-            
+        public void RequestRefresh(){
+            // Stub Method
         }
 }
