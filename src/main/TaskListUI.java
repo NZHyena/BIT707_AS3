@@ -4,28 +4,35 @@
  */
 package main;
 
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
+import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+
+// TODO: Add button to Task Description to Cancel Edit
+// TODO: Fix Size CreateTask
+// TODO: Add Separator
 
 /**
  *
  * @author user
  */
-public class TaskListUI extends javax.swing.JFrame {
+public class TaskListUI extends javax.swing.JFrame implements TaskListener{
 
-    int fullSize;
-    int partSize;
+    private int fullSize;
+    private int partSize;
+    private int height;
+    private TaskController controller = new TaskController();
 
     /**
      * Creates new form TaskListUI
      */
     public TaskListUI() {
         initComponents();
-
-        PanelTaskDetails.setVisible(false);
         fullSize = this.getWidth();
+        height = this.getHeight();
         partSize = fullSize - PanelTaskDetails.getWidth();
-        this.setSize(partSize, this.getHeight());
+        FnHideDetailPanel();
+        controller.InitialLoad();
+        controller.LoadAllTasks();
     }
 
     /**
@@ -58,7 +65,7 @@ public class TaskListUI extends javax.swing.JFrame {
         setName("To Do List"); // NOI18N
         setPreferredSize(new java.awt.Dimension(768, 400));
 
-        PanelToolbar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PanelToolbar.setBorder(null);
         PanelToolbar.setName("PanelTools"); // NOI18N
         PanelToolbar.setPreferredSize(new java.awt.Dimension(760, 35));
         PanelToolbar.setLayout(null);
@@ -68,6 +75,11 @@ public class TaskListUI extends javax.swing.JFrame {
         BtnDeleteTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnDeleteTask.setBorderPainted(false);
         BtnDeleteTask.setName("BtnDeleteTask"); // NOI18N
+        BtnDeleteTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDeleteTaskActionPerformed(evt);
+            }
+        });
         PanelToolbar.add(BtnDeleteTask);
         BtnDeleteTask.setBounds(60, 5, 30, 30);
 
@@ -76,6 +88,11 @@ public class TaskListUI extends javax.swing.JFrame {
         BtnCalendarView.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnCalendarView.setBorderPainted(false);
         BtnCalendarView.setName("BtnCalendarView"); // NOI18N
+        BtnCalendarView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCalendarViewActionPerformed(evt);
+            }
+        });
         PanelToolbar.add(BtnCalendarView);
         BtnCalendarView.setBounds(275, 5, 30, 30);
 
@@ -84,6 +101,11 @@ public class TaskListUI extends javax.swing.JFrame {
         BtnAddTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnAddTask.setBorderPainted(false);
         BtnAddTask.setName("BtnAddTask"); // NOI18N
+        BtnAddTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAddTaskActionPerformed(evt);
+            }
+        });
         PanelToolbar.add(BtnAddTask);
         BtnAddTask.setBounds(10, 5, 30, 30);
 
@@ -128,12 +150,22 @@ public class TaskListUI extends javax.swing.JFrame {
 
         BtnSaveTask.setText("Save & Collapse");
         BtnSaveTask.setName("BtnSaveTask"); // NOI18N
+        BtnSaveTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSaveTaskActionPerformed(evt);
+            }
+        });
         PanelTaskDetails.add(BtnSaveTask);
         BtnSaveTask.setBounds(30, 270, 119, 28);
 
         BtnCompleteDelete.setText("Complete/Delete");
         BtnCompleteDelete.setName("BtnDeleteTask"); // NOI18N
         PanelTaskDetails.add(BtnCompleteDelete);
+        BtnCompleteDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCompleteDeleteActionPerformed(evt);
+            }
+        });
         BtnCompleteDelete.setBounds(270, 270, 121, 28);
 
         InTaskName.setName("InTaskName"); // NOI18N
@@ -177,40 +209,59 @@ public class TaskListUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TaskListUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    protected void BtnCompleteDeleteActionPerformed(ActionEvent evt) {
+        // Messagebox to confirm
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TaskListUI().setVisible(true);
-            }
-        });
+        // On confirm
+        FnHideDetailPanel();
     }
+
+    protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
+        FnHideDetailPanel();
+    }
+
+    protected void BtnDeleteTaskActionPerformed(ActionEvent evt) {
+    }
+
+    protected void BtnCalendarViewActionPerformed(ActionEvent evt) {
+
+    }
+
+    private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        FnShowDetailPanel();
+        FnAddTaskSetup();
+    }      
+
+    private void FnShowDetailPanel(){
+        this.setSize(fullSize, height);
+        PanelToolbar.setSize(PanelTaskList.getWidth() + PanelTaskDetails.getWidth(), PanelToolbar.getHeight());
+        PanelTaskDetails.setVisible(true);
+    }
+
+    private void FnHideDetailPanel(){
+        this.setSize(partSize, height);
+        PanelToolbar.setSize(PanelTaskList.getWidth(), PanelToolbar.getHeight());
+        PanelTaskDetails.setVisible(false);
+        
+    }
+
+    private void FnAddTaskSetup(){
+        BtnSaveTask.setText("Create Task & Collapse");
+        BtnCompleteDelete.setText("Cancel");
+    }
+
+    private void FnEditTaskSetup(int id){
+        BtnSaveTask.setText("Save Task & Collapse");
+        BtnCompleteDelete.setText("Complete/Delete Task");
+
+        InTaskName.setText(controller.FindTaskById(id).getTaskName());
+        InTaskDescript.setText(controller.FindTaskById(id).getDetails());
+    }
+
+    private void FnUpdate(){
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAddTask;
@@ -229,4 +280,24 @@ public class TaskListUI extends javax.swing.JFrame {
     private javax.swing.JTextField InTaskName;
     private javax.swing.JTextField InDueDate;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void TaskCreated(int id, LocalDate date, String... created) {
+        FnUpdate();
+    }
+
+    @Override
+    public void TaskUpdated(int id, String... updates) {
+        FnUpdate();        
+    }
+
+    @Override
+    public void TaskDeleted(int taskId) {
+        FnUpdate();        
+    }
+
+    @Override
+    public void RequestRefresh(){
+        FnUpdate();
+    }
 }
