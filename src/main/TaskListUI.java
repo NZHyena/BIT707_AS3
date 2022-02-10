@@ -4,8 +4,8 @@
  */
 package main;
 
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 import main.TaskItemPanel.ItemPanelListener;
@@ -16,8 +16,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
-// TODO: Add button to Task Description to Cancel Edit
-// TODO: Add Separator
+// TODO: Add button to Task Details to Cancel Edit
+// TODO: Tooltips
+// TODO: Create EmptyTaskPanel for when TaskList is empty
 
 /**
  *
@@ -30,10 +31,7 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     private int height;
     private TaskController controller = new TaskController();
     private boolean panelTaskCreate = false;
-    private int taskId;
-    private GridLayout TaskListLayout = new GridLayout(0,1);
     private List<JPanel> PanelList = new ArrayList<JPanel>();
-
     /**
      * Creates new form TaskListUI
      */
@@ -74,50 +72,63 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         InTaskDescript = new JTextArea();
         InDueDate = new JTextField();
         BtnCancel = new JButton();
+        ToolbarSeparator = new JSeparator();
+
+        box = Box.createVerticalBox();        
+
+        jScrollPane2 = new JScrollPane(box);
+        jScrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new Dimension(323, 550));
+        jScrollPane2.setMinimumSize(jScrollPane2.getPreferredSize());
+        jScrollPane2.setMaximumSize(jScrollPane2.getPreferredSize());
+        
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new Color(255, 255, 255));
         setName("To Do List"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(768, 400));
+        setPreferredSize(new Dimension(768, 650));
+        setMinimumSize(new Dimension(partSize, 650));
+        setResizable(false);
 
         PanelToolbar.setBorder(null);
         PanelToolbar.setName("PanelTools"); // NOI18N
-        PanelToolbar.setPreferredSize(new java.awt.Dimension(760, 35));
+        PanelToolbar.setPreferredSize(new Dimension(760, 35));
         PanelToolbar.setLayout(null);
 
-        BtnDeleteTask.setBackground(new java.awt.Color(255, 255, 255));
+        BtnDeleteTask.setBackground(new Color(255, 255, 255));
         BtnDeleteTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-remove-24.png"))); // NOI18N
         BtnDeleteTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnDeleteTask.setBorderPainted(false);
         BtnDeleteTask.setName("BtnDeleteTask"); // NOI18N
-        BtnDeleteTask.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnDeleteTask.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnDeleteTaskActionPerformed(evt);
             }
         });
         PanelToolbar.add(BtnDeleteTask);
         BtnDeleteTask.setBounds(60, 5, 30, 30);
 
-        BtnCalendarView.setBackground(new java.awt.Color(255, 255, 255));
+        BtnCalendarView.setBackground(new Color(255, 255, 255));
         BtnCalendarView.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-calendar-24.png"))); // NOI18N
         BtnCalendarView.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnCalendarView.setBorderPainted(false);
         BtnCalendarView.setName("BtnCalendarView"); // NOI18N
-        BtnCalendarView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnCalendarView.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnCalendarViewActionPerformed(evt);
             }
         });
         PanelToolbar.add(BtnCalendarView);
         BtnCalendarView.setBounds(275, 5, 30, 30);
 
-        BtnAddTask.setBackground(new java.awt.Color(255, 255, 255));
+        BtnAddTask.setBackground(new Color(255, 255, 255));
         BtnAddTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-plus-math-24.png"))); // NOI18N
         BtnAddTask.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         BtnAddTask.setBorderPainted(false);
         BtnAddTask.setName("BtnAddTask"); // NOI18N
-        BtnAddTask.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnAddTask.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnAddTaskActionPerformed(evt);
             }
         });
@@ -125,9 +136,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         BtnAddTask.setBounds(10, 5, 30, 30);
 
         PanelTaskList.setName("PanelTaskList"); // NOI18N
-        PanelTaskList.setPreferredSize(new java.awt.Dimension(300, 550));
-
-        PanelTaskList.setLayout(TaskListLayout);
+        PanelTaskList.setPreferredSize(new Dimension(325, 550));
+        PanelTaskList.setMaximumSize(PanelTaskList.getPreferredSize());
+        PanelTaskList.setLayout(new BorderLayout());
+        PanelTaskList.add(jScrollPane2, BorderLayout.NORTH);
 
         PanelTaskDetails.setBorder(null);
         PanelTaskDetails.setName("PanelTaskDetail"); // NOI18N
@@ -164,7 +176,7 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         PanelTaskDetails.add(BtnSaveTask);
         BtnSaveTask.setBounds(30, 270, 119, 28);
 
-        BtnCompleteDelete.setText("Complete/Delete");
+        BtnCompleteDelete.setText("Complete Task");
         BtnCompleteDelete.setName("BtnDeleteTask"); // NOI18N
         PanelTaskDetails.add(BtnCompleteDelete);
         BtnCompleteDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +210,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             }
         });
         BtnCancel.setBounds(320, 270, 73, 28);
+        getContentPane().add(ToolbarSeparator);
+        ToolbarSeparator.setBounds(0, 40, 739, 10);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -224,9 +238,11 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     protected void BtnCancelActionPerformed(ActionEvent evt) {
         FnHideDetailPanel();
     }
+
 
     protected void BtnCompleteDeleteActionPerformed(ActionEvent evt) {
         // TODO: Complete Method BtnCompleteDeleteActionPerformed
@@ -237,6 +253,7 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         // On Cancel
             // Leave panel up
     }
+
 
     protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
         // TODO: Complete Method BtnSaveTaskActionPerformed
@@ -254,8 +271,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             // Tell User Why it went poorly
     }
 
+
     protected void BtnDeleteTaskActionPerformed(ActionEvent evt) {
-        // TODO: Complete Method BtnDeleteTaskActionPerformed
         List<TaskItemPanel> tPanels = new ArrayList<TaskItemPanel>();
         for (JPanel panel : PanelList) {
             if(panel.getName() != "TaskHeadingPanel")
@@ -264,15 +281,27 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
 
         for (TaskItemPanel taskItem : tPanels) {
             if(taskItem.FnGetCheckbox()){
-                // If ticked then confirm delete the task
-                    // Delete the task if confirm yes
-                    // Continue if pass on delete
+                int taskId = taskItem.FnGetTaskID();
+                String taskName = controller.FindTaskById(taskId).getTaskName();
+                String msg = "Are your sure you wish to delete Task:\n" + taskName;
+                if (controller.FindTaskById(taskId).getDate() != null){
+                    msg += " Due: " + controller.FindTaskById(taskId).getDate();
+                }
+                msg += "?";
+                int result = JOptionPane.showConfirmDialog(
+                    this, 
+                    msg, "Confirm Task Delete", JOptionPane.YES_NO_OPTION);
+
+                if (result == JOptionPane.YES_OPTION){
+                    controller.DeleteTask(controller.FindTaskById(taskId));
+                }
             }
         }
-                
+
         // Refresh the list
         FnUpdate();
     }
+
 
     protected void BtnCalendarViewActionPerformed(ActionEvent evt) {
         // TODO: Complete Method BtnCalendarViewActionPerformed
@@ -282,16 +311,19 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         this.setVisible(false);
     }
 
+
     private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {
         FnShowDetailPanel();
         FnAddTaskSetup();
-    }      
+    }     
+
 
     private void FnShowDetailPanel(){
         this.setSize(fullSize, height);
         PanelToolbar.setSize(PanelTaskList.getWidth() + PanelTaskDetails.getWidth(), PanelToolbar.getHeight());
         PanelTaskDetails.setVisible(true);
     }
+
 
     private void FnHideDetailPanel(){
         this.setSize(partSize, height);
@@ -314,17 +346,35 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         }
     }
 
+
     private void FnAddTaskSetup(){
         panelTaskCreate = true;
         BtnSaveTask.setText("Create Task");
         BtnCompleteDelete.setVisible(false);
         BtnCancel.setVisible(true);
+        InDueDate.setText("dd/mm/yyyy");
+        InTaskDescript.setText("");
+        InTaskName.setText("");
+
+        List<TaskItemPanel> tPanels = new ArrayList<TaskItemPanel>();
+        for (JPanel panel : PanelList) {
+            if(panel.getName() != "TaskHeadingPanel")
+                tPanels.add((TaskItemPanel) panel);
+        }
+
+        for (TaskItemPanel taskItem : tPanels) {
+            if(taskItem.FnGetTaskOpen()){
+                taskItem.FnSetTaskClosed();
+                break;
+            }
+        }
     }
+
 
     private void FnEditTaskSetup(int id){
         panelTaskCreate = false;
         BtnSaveTask.setText("Save Task");
-        BtnCompleteDelete.setText("Complete/Delete Task");
+        BtnCompleteDelete.setText("Complete Task");
         BtnCompleteDelete.setVisible(true);
         BtnCancel.setVisible(false);
         InTaskName.setText(controller.FindTaskById(id).getTaskName());
@@ -335,19 +385,28 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         }
     }
 
+
     private void FnUpdate(){
+        for (JPanel jPanel : PanelList) {
+            PanelTaskList.remove(jPanel);
+        }
         PanelList.clear();
-        PanelTaskList.removeAll();
         FnLoadAllTasks();
+        PanelTaskList.revalidate();
+        PanelTaskList.repaint();
     }
+
 
     private void FnLoadAllTasks(){
         LocalDate previousDate = null;
         TaskItemPanel tmp;
+
+        JSeparator taskSeparator = new JSeparator();
+        taskSeparator.setPreferredSize(new Dimension(300, 2));
+        taskSeparator.setMaximumSize(taskSeparator.getPreferredSize());
+
         controller.SortTask();
         for (Task t : controller.getAllTasks()) {
-            // TODO: Rework This ordering
-
             if (previousDate == t.getDate()){
                 tmp = new TaskItemPanel(t);
                 tmp.addListener(this);
@@ -366,12 +425,16 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
 
             previousDate = t.getDate();
         }
+
         for (JPanel jPanel : PanelList) {
-            PanelTaskList.add(jPanel);
+            box.add(jPanel);
+            box.add(taskSeparator);
         }
     }
 
+
     // TODO: Action for focus or text input length changes
+
 
     private LocalDate FnInputHandleTaskDate(String date){
         if (date == null || date.isEmpty()){
@@ -408,31 +471,38 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     private JTextField InTaskName;
     private JTextField InDueDate;
     private JButton BtnCancel;
+    private JSeparator ToolbarSeparator;
+    private Box box;
+    private JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
 
     @Override
     public void TaskCreated(int id, LocalDate date, String... created) {
         FnUpdate();
     }
 
+
     @Override
     public void TaskUpdated(int id, String... updates) {
         FnUpdate();        
     }
+
 
     @Override
     public void TaskDeleted(int taskId) {
         FnUpdate();        
     }
 
+
     @Override
     public void RequestRefresh(){
         FnUpdate();
     }
 
+
     @Override
     public void taskEditOpened(int taskId) {
-        // TODO: Check Panel is open
         if (PanelTaskDetails.isVisible()){
             FnHideDetailPanel();
         }
@@ -440,6 +510,7 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         FnEditTaskSetup(taskId);
     }
 
+    
     @Override
     public void taskEditClosed(){
         FnHideDetailPanel();
