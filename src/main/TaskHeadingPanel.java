@@ -43,9 +43,10 @@ public class TaskHeadingPanel extends javax.swing.JPanel {
 
         DateHeading = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        setMaximumSize(new java.awt.Dimension(300, 30));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setPreferredSize(new java.awt.Dimension(300, 30));
+        setMaximumSize(getPreferredSize());
+        setMinimumSize(getPreferredSize());
         setLayout(new java.awt.BorderLayout());
 
         DateHeading.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N

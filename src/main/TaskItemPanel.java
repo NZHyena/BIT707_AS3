@@ -17,9 +17,10 @@ import java.util.List;
  */
 public class TaskItemPanel extends javax.swing.JPanel{
 
-    int taskId;
-    boolean taskOpened = false;
-    List<ItemPanelListener> listeners = new ArrayList<ItemPanelListener>();
+    private int taskId;
+    private boolean taskOpened = false;
+    private List<ItemPanelListener> listeners = new ArrayList<ItemPanelListener>();
+    private Color defaultBackground = this.getBackground();
 
     public void addListener(ItemPanelListener toAdd){
         listeners.add(toAdd);
@@ -63,14 +64,16 @@ public class TaskItemPanel extends javax.swing.JPanel{
         ChkBoxWithTaskName = new JCheckBox();
         BtnEditTask = new JButton();
 
-        setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        setMaximumSize(new Dimension(300, 50));
+        setBorder(BorderFactory.createEmptyBorder());
+        setPreferredSize(new Dimension(300, 50));
+        setMaximumSize(getPreferredSize());
+        setMinimumSize(getPreferredSize());
         setLayout(null);
 
         LblTaskDate.setText("TaskDate");
         LblTaskDate.setName("TaskDate"); // NOI18N
         add(LblTaskDate);
-        LblTaskDate.setBounds(200, 17, 53, 16);
+        LblTaskDate.setBounds(200, 17, 80, 16);
 
         ChkBoxWithTaskName.setFont(new Font("sansserif", 1, 12)); // NOI18N
         ChkBoxWithTaskName.setText("TaskName");
@@ -81,7 +84,7 @@ public class TaskItemPanel extends javax.swing.JPanel{
             }
         });
         add(ChkBoxWithTaskName);
-        ChkBoxWithTaskName.setBounds(10, 14, 83, 18);
+        ChkBoxWithTaskName.setBounds(10, 14, 200, 18);
 
         BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png"))); // NOI18N
         BtnEditTask.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -98,12 +101,14 @@ public class TaskItemPanel extends javax.swing.JPanel{
     protected void BtnEditTaskActionPerformed(ActionEvent evt) {
         if(taskOpened){
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
+            setBorder(BorderFactory.createEmptyBorder());
+            setBackground(defaultBackground);
             notifyEditClose();
-            BtnEditTask.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             taskOpened = false;
         } else {
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-left-24.png")));
-            this.setBorder(BorderFactory.createEmptyBorder());
+            setBorder(BorderFactory.createLoweredBevelBorder());
+            setBackground(new Color(200,200,200));
             notifyEditOpen();
             taskOpened = true;
         }
@@ -120,7 +125,7 @@ public class TaskItemPanel extends javax.swing.JPanel{
         return false;
     }
 
-    private int FnGetRelatedTask(){
+    public int FnGetTaskID(){
         return taskId;
     }
 
@@ -130,6 +135,7 @@ public class TaskItemPanel extends javax.swing.JPanel{
 
     public void FnSetTaskClosed(){
         taskOpened = false;
+        setBackground(defaultBackground);
         BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
     }
 
