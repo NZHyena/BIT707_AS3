@@ -1,6 +1,10 @@
 package main;
 
-import java.time.LocalDate;
+import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -11,15 +15,39 @@ import java.time.LocalDate;
  *
  * @author user
  */
-public class TaskItemPanel extends javax.swing.JPanel {
+public class TaskItemPanel extends javax.swing.JPanel{
 
     int taskId;
+    boolean taskOpened = false;
+    List<ItemPanelListener> listeners = new ArrayList<ItemPanelListener>();
+
+    public void addListener(ItemPanelListener toAdd){
+        listeners.add(toAdd);
+    }
+
+    public void notifyEditOpen(){
+        for (ItemPanelListener tl :listeners){
+            tl.taskEditOpened(taskId);
+        }
+    }
+    public void notifyEditClose(){
+        for (ItemPanelListener tl :listeners){
+            tl.taskEditClosed();
+        }
+    }
 
     /**
      * Creates new form TaskItemPanel
      */
     public TaskItemPanel(Task t) {
         initComponents();
+        taskId = t.getId();
+        ChkBoxWithTaskName.setText(t.getTaskName());
+        if (t.getDate() != null){
+            LblTaskDate.setText(t.getDate().toString());
+        } else {
+            LblTaskDate.setVisible(false);
+        }
     }
 
     /**
@@ -31,45 +59,89 @@ public class TaskItemPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LblTaskDate = new javax.swing.JLabel();
-        ChkBoxWithTaskName = new javax.swing.JCheckBox();
-        BtnEditTask = new javax.swing.JButton();
+        LblTaskDate = new JLabel();
+        ChkBoxWithTaskName = new JCheckBox();
+        BtnEditTask = new JButton();
 
-        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        setMaximumSize(new java.awt.Dimension(400, 60));
+        setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        setMaximumSize(new Dimension(300, 50));
         setLayout(null);
 
         LblTaskDate.setText("TaskDate");
         LblTaskDate.setName("TaskDate"); // NOI18N
         add(LblTaskDate);
-        LblTaskDate.setBounds(200, 21, 53, 16);
+        LblTaskDate.setBounds(200, 17, 53, 16);
 
-        ChkBoxWithTaskName.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        ChkBoxWithTaskName.setFont(new Font("sansserif", 1, 12)); // NOI18N
         ChkBoxWithTaskName.setText("TaskName");
         ChkBoxWithTaskName.setName("TaskNameAndCheck"); // NOI18N
-        ChkBoxWithTaskName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ChkBoxWithTaskName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
         add(ChkBoxWithTaskName);
-        ChkBoxWithTaskName.setBounds(10, 21, 83, 18);
+        ChkBoxWithTaskName.setBounds(10, 14, 83, 18);
 
-        BtnEditTask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png"))); // NOI18N
-        BtnEditTask.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        BtnEditTask.setPreferredSize(new java.awt.Dimension(30, 30));
+        BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png"))); // NOI18N
+        BtnEditTask.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        BtnEditTask.setPreferredSize(new Dimension(30, 30));
+        BtnEditTask.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                BtnEditTaskActionPerformed(evt);
+            }
+        });
         add(BtnEditTask);
-        BtnEditTask.setBounds(270, 15, 30, 30);
+        BtnEditTask.setBounds(270, 10, 30, 30);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    protected void BtnEditTaskActionPerformed(ActionEvent evt) {
+        if(taskOpened){
+            BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
+            notifyEditClose();
+            BtnEditTask.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+            taskOpened = false;
+        } else {
+            BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-left-24.png")));
+            this.setBorder(BorderFactory.createEmptyBorder());
+            notifyEditOpen();
+            taskOpened = true;
+        }
+    }
+
+    private void jCheckBox1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    public boolean FnGetCheckbox(){
+        if(ChkBoxWithTaskName.isSelected()){
+            return true;
+        }
+        return false;
+    }
+
+    private int FnGetRelatedTask(){
+        return taskId;
+    }
+
+    public boolean FnGetTaskOpen(){
+        return taskOpened;
+    }
+
+    public void FnSetTaskClosed(){
+        taskOpened = false;
+        BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtnEditTask;
-    private javax.swing.JCheckBox ChkBoxWithTaskName;
-    private javax.swing.JLabel LblTaskDate;
+    private JButton BtnEditTask;
+    private JCheckBox ChkBoxWithTaskName;
+    private JLabel LblTaskDate;
     // End of variables declaration//GEN-END:variables
+
+    interface ItemPanelListener {
+        void taskEditOpened(int taskId);
+        void taskEditClosed();
+    }
 }
