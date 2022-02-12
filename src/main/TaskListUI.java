@@ -2,15 +2,13 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-
 import javax.swing.*;
 
 import main.TaskItemPanel.ItemPanelListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -210,9 +208,12 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         InTaskName.setName("InTaskName"); // NOI18N
         PanelTaskDetails.add(InTaskName);
         InTaskName.setBounds(110, 20, 282, 28);
-        InTaskName.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                InTaskNamePropertyChange(evt);
+        InTaskName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                InTaskNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                InTaskNameFocusLost(evt);
             }
         });
 
@@ -265,7 +266,17 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }// </editor-fold>//GEN-END:initComponents
 
 
-    protected void InTaskNamePropertyChange(PropertyChangeEvent evt) {
+    protected void InTaskNameFocusLost(FocusEvent evt) {
+        if (InTaskName.getText().length() > 0){
+            BtnSaveTask.setEnabled(true);
+        }
+        else{
+            BtnSaveTask.setEnabled(false);
+        }
+    }
+
+
+    protected void InTaskNameFocusGained(FocusEvent evt) {
         if (InTaskName.getText().length() > 0){
             BtnSaveTask.setEnabled(true);
         }
@@ -305,17 +316,30 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
         if (panelTaskCreate){
             FnCreateTask();
+            FnUpdate();
         } else {
             FnEditTask();
         }
+
     }
 
 
     private void FnCreateTask(){
         String strTaskName = InTaskName.getText();
         String strDate = InDueDate.getText();
-        String strDetials = InTaskDescript.getText();
+        LocalDate date;
+        String strDetails = InTaskDescript.getText();
 
+        if (strDate.matches("(\\d{1,2}(\\/|-)\\d{2}(\\/|-)\\d{4})")){
+            date = FnInputHandleTaskDate(strDate);
+        } else {
+            date = null;
+        }
+
+        if(strDetails.isEmpty()){
+            strDetails = null;
+        }
+        
         if(strTaskName.length() > 50){
             String msg = "Input Error: Task name cannot exceed 50 characters in length";
             JOptionPane.showConfirmDialog(
@@ -324,35 +348,43 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             InTaskName.setText("");
         }
         else{
-            if (strDate.length() == 0 || strDate == "dd/mm/yyyy"){
-                if(strDetials.length() == 0){
-                    controller.CreateTask(strTaskName);
-                }else{
-                    controller.CreateTask(strTaskName, strDetials);
-                }
+            if(date == null && strDetails == null){
+                controller.CreateTask(strTaskName);
             }
-            else {
-                if(strDetials.length() == 0){
-                    LocalDate date = FnInputHandleTaskDate(strDate);
-                    if(date != null){
-                        controller.CreateTask(strTaskName, date);
-                    }
-                }else{
-                    LocalDate date = FnInputHandleTaskDate(strDate);
-                    if(date != null){
-                        controller.CreateTask(strTaskName,strDetials, date);
-                    }
-                }
+            else if(strDetails == null){
+                controller.CreateTask(strTaskName, date);
             }
+            else if(date == null){
+                controller.CreateTask(strTaskName, strDetails);
+            } else{
+                controller.CreateTask(strTaskName, strDetails, date);
+            }
+            
+            InDueDate.setText("dd/mm/yyyy");
+
+            JOptionPane.showConfirmDialog(
+                this, 
+                "Task Created Successfully", "Success", JOptionPane.OK_OPTION);
             FnHideDetailPanel();
         }
+            // TODO: Clear all fields
+        
     }
 
 
     private void FnEditTask(){
+        // TODO: Fix, does not change in app
         String strTaskName = InTaskName.getText();
+        LocalDate date;
         String strDate = InDueDate.getText();
         String strDetails = InTaskDescript.getText();
+
+        if (strDate.matches("(\\d{1,2}(\\/|-)\\d{2}(\\/|-)\\d{4})")){
+            date = FnInputHandleTaskDate(strDate);
+        } else {
+            date = null;
+        }
+        
         if(strTaskName.length() > 50){
             String msg = "Input Error: Task name cannot exceed 50 characters in length";
             JOptionPane.showConfirmDialog(
@@ -361,20 +393,20 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             InTaskName.setText("");
         }
         else{
-            if (strDetails.isEmpty()){
-                strDetails = null;
+            if(date == null){
+                controller.EditTask(editTaskId, strTaskName, strDetails, null);
             }
-            if (strDate.isEmpty() || strDate.equals("dd/mm/yyyy")){
-                strDate = null;
-                controller.EditTask(editTaskId, strTaskName, strDetails, strDate);
-                FnHideDetailPanel();
-            }
-                LocalDate date = FnInputHandleTaskDate(strDate);
-            if (date != null){
+            else{
                 controller.EditTask(editTaskId, strTaskName, strDetails, date.toString());
-                FnHideDetailPanel();
             }
+            
             InDueDate.setText("dd/mm/yyyy");
+
+            JOptionPane.showConfirmDialog(
+                this, 
+                "Task Edited Successfully", "Success", JOptionPane.OK_OPTION);
+            FnUpdate();
+            FnHideDetailPanel();
         }
     }
 
@@ -413,8 +445,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     protected void BtnCalendarViewActionPerformed(ActionEvent evt) {
         // TODO: Complete Method BtnCalendarViewActionPerformed
         // Open calendar view form
-        // CalendarView calendarView = new CalendarView();
-        // calendarView.setVisible(true);
+        CalendarView calendarView = new CalendarView(controller);
+        calendarView.setVisible(true);
         this.setVisible(false);
     }
 
@@ -492,17 +524,21 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             LocalDate date = controller.FindTaskById(id).getDate();
             InDueDate.setText(String.format("%td/%tm/%tY", date, date, date));
         }
+        else {
+            InDueDate.setText("");
+        }
     }
 
 
     private void FnUpdate(){
-        for (JPanel jPanel : PanelList) {
-            PanelTaskList.remove(jPanel);
-        }
+        box.removeAll();
         PanelList.clear();
-        FnLoadAllTasks();
+
         PanelTaskList.revalidate();
         PanelTaskList.repaint();
+
+        FnLoadAllTasks();
+        
     }
 
 
@@ -552,13 +588,12 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
             return null;
         }
 
-        SimpleDateFormat format = (date.charAt(2) == '/') ? new SimpleDateFormat("dd/MM/yy")
-                                                          : new SimpleDateFormat("dd-MM-yy");
+        DateTimeFormatter format = (date.charAt(2) == '/') ? DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                                                          : DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         try {
-            format.parse(date);
-            return LocalDate.parse(date);
-        } catch (ParseException e) {
+            return LocalDate.parse(date, format);
+        } catch (DateTimeParseException e) {
             String msg = "Input Error: Due Date does not match the required 'dd/mm/yyyy' pattern (i.e. '11/02/2022')\nPlease re-enter the task due date";
             JOptionPane.showConfirmDialog(
                     this, 
