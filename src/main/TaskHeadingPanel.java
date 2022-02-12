@@ -2,7 +2,8 @@ package main;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.awt.Color;
+import java.awt.*;
+import javax.swing.*;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -30,7 +31,7 @@ import java.awt.Color;
  *
  * @author Grant Docherty - 5032768
  */
-public class TaskHeadingPanel extends javax.swing.JPanel {
+public class TaskHeadingPanel extends JPanel {
 
     /**
      * Creates new form TaskHeadingPanel
@@ -43,6 +44,9 @@ public class TaskHeadingPanel extends javax.swing.JPanel {
         } else if (date.isBefore(LocalDate.now())){
             Period overdue = Period.between(date, LocalDate.now());
             DateHeading.setText(String.format("Tasks overdue: %d Days", overdue.getDays()));
+            DateHeading.setForeground(Color.RED);
+        } else if (date.equals(LocalDate.now())){
+            DateHeading.setText(String.format("Tasks Due: Today (%ta %tb)", date, date));
             DateHeading.setForeground(Color.RED);
         } else {
             DateHeading.setText(String.format("Tasks due: %ta %tb %td", date, date, date));
@@ -59,21 +63,21 @@ public class TaskHeadingPanel extends javax.swing.JPanel {
 
         DateHeading = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        setPreferredSize(new java.awt.Dimension(300, 30));
+        setBorder(BorderFactory.createEmptyBorder());
+        setPreferredSize(new Dimension(300, 30));
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new BorderLayout());
 
-        DateHeading.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        DateHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DateHeading.setFont(new Font("sansserif", 1, 14)); // NOI18N
+        DateHeading.setHorizontalAlignment(SwingConstants.CENTER);
         DateHeading.setText("Unscheduled");
         DateHeading.setName("DateHeading"); // NOI18N
-        add(DateHeading, java.awt.BorderLayout.CENTER);
+        add(DateHeading, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel DateHeading;
+    private JLabel DateHeading;
     // End of variables declaration//GEN-END:variables
 }
