@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Grant Docherty - 5032768
  */
-public class TaskItemPanel extends javax.swing.JPanel{
+public class TaskItemPanel extends JPanel{
 
     private int taskId;
     private boolean taskOpened = false;
