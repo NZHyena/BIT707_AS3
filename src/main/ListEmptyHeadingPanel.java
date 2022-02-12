@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.*;
+import javax.swing.*;
 /*
  * Copyright (C) 2022 Grant Docherty
  *
@@ -26,7 +28,7 @@ package main;
  *
  * @author Grant Docherty - 5032768
  */
-public class ListEmptyHeadingPanel extends javax.swing.JPanel {
+public class ListEmptyHeadingPanel extends JPanel {
 
     /**
      * Creates new form TaskHeadingPanel
@@ -45,23 +47,27 @@ public class ListEmptyHeadingPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MsgHeading = new javax.swing.JLabel();
+        MsgMainHeading = new JLabel();
+        MsgSecondaryHeading = new JLabel();
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        setPreferredSize(new java.awt.Dimension(300, 50));
-        setMaximumSize(getPreferredSize());
-        setMinimumSize(getPreferredSize());
-        setLayout(new java.awt.BorderLayout());
+        setMaximumSize(new Dimension(300, 50));
+        setMinimumSize(new Dimension(300, 50));
+        setPreferredSize(new Dimension(300, 50));
+        setLayout(new BorderLayout());
 
-        MsgHeading.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        MsgHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        MsgHeading.setText("No Tasks Created\nCreate a task to populate the list");
-        MsgHeading.setName("DateHeading"); // NOI18N
-        add(MsgHeading, java.awt.BorderLayout.CENTER);
+        MsgMainHeading.setFont(new Font("sansserif", 1, 14)); // NOI18N
+        MsgMainHeading.setHorizontalAlignment(SwingConstants.CENTER);
+        MsgMainHeading.setText("No Tasks Created ");
+        add(MsgMainHeading, BorderLayout.CENTER);
+
+        MsgSecondaryHeading.setHorizontalAlignment(SwingConstants.CENTER);
+        MsgSecondaryHeading.setText("Create a task to populate the list");
+        add(MsgSecondaryHeading, BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel MsgHeading;
+    private JLabel MsgMainHeading;
+    private JLabel MsgSecondaryHeading;
     // End of variables declaration//GEN-END:variables
 }
