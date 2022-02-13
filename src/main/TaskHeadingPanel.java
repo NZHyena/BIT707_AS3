@@ -46,10 +46,10 @@ public class TaskHeadingPanel extends JPanel {
             DateHeading.setText(String.format("Tasks overdue: %d Days", overdue.getDays()));
             DateHeading.setForeground(Color.RED);
         } else if (date.equals(LocalDate.now())){
-            DateHeading.setText(String.format("Tasks Due: Today (%ta %tb)", date, date));
+            DateHeading.setText(String.format("Tasks Due: Today (%ta %tb %te)", date, date, date));
             DateHeading.setForeground(Color.RED);
         } else {
-            DateHeading.setText(String.format("Tasks due: %ta %tb %td", date, date, date));
+            DateHeading.setText(String.format("Tasks due: %ta %tb %te", date, date, date));
         }
     }
 
