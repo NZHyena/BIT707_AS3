@@ -187,7 +187,7 @@ public class TaskController {
             
             if (filpDates){
                 if(t.getDate().isBefore(date2)){
-                    break;
+                    continue;
                 }
 
                 if (t.getDate().equals(date2) || t.getDate().equals(date1)) {
@@ -199,7 +199,7 @@ public class TaskController {
             }
             else{
                 if(t.getDate().isBefore(date1)){
-                    break;
+                    continue;
                 }
 
                 if (t.getDate().equals(date1) || t.getDate().equals(date2)) {
