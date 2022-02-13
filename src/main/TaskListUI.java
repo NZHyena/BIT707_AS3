@@ -161,24 +161,24 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
 
         PanelTaskDetails.setBorder(null);
         PanelTaskDetails.setName("PanelTaskDetail"); // NOI18N
-        PanelTaskDetails.setPreferredSize(new java.awt.Dimension(450, 550));
+        PanelTaskDetails.setPreferredSize(new Dimension(450, 550));
         PanelTaskDetails.setLayout(null);
 
-        LblTaskName.setForeground(new java.awt.Color(0, 0, 0));
+        LblTaskName.setForeground(new Color(0, 0, 0));
         LblTaskName.setLabelFor(InTaskName);
         LblTaskName.setText("Task Name:");
         LblTaskName.setName("LblTaskName"); // NOI18N
         PanelTaskDetails.add(LblTaskName);
         LblTaskName.setBounds(30, 30, 67, 16);
 
-        LblTaskDescript.setForeground(new java.awt.Color(0, 0, 0));
+        LblTaskDescript.setForeground(new Color(0, 0, 0));
         LblTaskDescript.setLabelFor(InTaskDescript);
         LblTaskDescript.setText("Task Description:");
         LblTaskDescript.setName("LblTaskDescription"); // NOI18N
         PanelTaskDetails.add(LblTaskDescript);
         LblTaskDescript.setBounds(30, 60, 96, 16);
 
-        LblDueDate.setForeground(new java.awt.Color(0, 0, 0));
+        LblDueDate.setForeground(new Color(0, 0, 0));
         LblDueDate.setText("Due Date:");
         LblDueDate.setName("LblDueDate"); // NOI18N
         PanelTaskDetails.add(LblDueDate);
@@ -187,8 +187,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         BtnSaveTask.setText("Save & Collapse");
         BtnSaveTask.setName("BtnSaveTask"); // NOI18N
         BtnSaveTask.setEnabled(false);
-        BtnSaveTask.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnSaveTask.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnSaveTaskActionPerformed(evt);
             }
         });
@@ -198,8 +198,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         BtnCompleteDelete.setText("Complete Task");
         BtnCompleteDelete.setName("BtnDeleteTask"); // NOI18N
         PanelTaskDetails.add(BtnCompleteDelete);
-        BtnCompleteDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnCompleteDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnCompleteDeleteActionPerformed(evt);
             }
         });
@@ -208,11 +208,11 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         InTaskName.setName("InTaskName"); // NOI18N
         PanelTaskDetails.add(InTaskName);
         InTaskName.setBounds(110, 20, 282, 28);
-        InTaskName.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+        InTaskName.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent evt) {
                 InTaskNameFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(FocusEvent evt) {
                 InTaskNameFocusLost(evt);
             }
         });
@@ -231,8 +231,8 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
 
         BtnCancel.setText("Cancel");
         PanelTaskDetails.add(BtnCancel);
-        BtnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BtnCancelActionPerformed(evt);
             }
         });
