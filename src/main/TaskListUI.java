@@ -1,11 +1,8 @@
 package main;
-
+import main.TaskItemPanel.ItemPanelListener;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-
-import main.TaskItemPanel.ItemPanelListener;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -51,6 +48,7 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     private TaskController controller = new TaskController();
     private boolean panelTaskCreate = false;
     private List<JPanel> PanelList = new ArrayList<JPanel>();
+    
     /**
      * Creates new form TaskListUI
      */
@@ -266,6 +264,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }// </editor-fold>//GEN-END:initComponents
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void InTaskNameFocusLost(FocusEvent evt) {
         if (InTaskName.getText().length() > 0){
             BtnSaveTask.setEnabled(true);
@@ -276,6 +278,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void InTaskNameFocusGained(FocusEvent evt) {
         if (InTaskName.getText().length() > 0){
             BtnSaveTask.setEnabled(true);
@@ -286,11 +292,19 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void BtnCancelActionPerformed(ActionEvent evt) {
         FnHideDetailPanel();
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void BtnCompleteDeleteActionPerformed(ActionEvent evt) {
 
             String taskName = controller.FindTaskById(editTaskId).getTaskName();
@@ -313,6 +327,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void BtnSaveTaskActionPerformed(ActionEvent evt) {
         if (panelTaskCreate){
             FnCreateTask();
@@ -323,7 +341,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
 
     }
 
-
+    /**
+     * 
+     */
     private void FnCreateTask(){
         String strTaskName = InTaskName.getText();
         String strDate = InDueDate.getText();
@@ -371,7 +391,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         
     }
 
-
+    /**
+     * 
+     */
     private void FnEditTask(){
         // TODO: Fix, does not change in app
         String strTaskName = InTaskName.getText();
@@ -411,6 +433,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void BtnDeleteTaskActionPerformed(ActionEvent evt) {
         List<TaskItemPanel> tPanels = new ArrayList<TaskItemPanel>();
         for (JPanel panel : PanelList) {
@@ -442,6 +468,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     protected void BtnCalendarViewActionPerformed(ActionEvent evt) {
         // TODO: Complete Method BtnCalendarViewActionPerformed
         // Open calendar view form
@@ -451,19 +481,27 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param evt
+     */
     private void BtnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {
         FnShowDetailPanel();
         FnAddTaskSetup();
     }     
 
-
+    /**
+     * 
+     */
     private void FnShowDetailPanel(){
         this.setSize(fullSize, height);
         PanelToolbar.setSize(PanelTaskList.getWidth() + PanelTaskDetails.getWidth(), PanelToolbar.getHeight());
         PanelTaskDetails.setVisible(true);
     }
 
-
+    /**
+     * 
+     */
     private void FnHideDetailPanel(){
         this.setSize(partSize, height);
         PanelToolbar.setSize(PanelTaskList.getWidth(), PanelToolbar.getHeight());
@@ -485,7 +523,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         }
     }
 
-
+    /**
+     * 
+     */
     private void FnAddTaskSetup(){
         panelTaskCreate = true;
         BtnSaveTask.setText("Create Task");
@@ -510,6 +550,10 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param id
+     */
     private void FnEditTaskSetup(int id){
         panelTaskCreate = false;
         BtnSaveTask.setText("Save Task");
@@ -529,7 +573,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         }
     }
 
-
+    /**
+     * 
+     */
     private void FnUpdate(){
         box.removeAll();
         PanelList.clear();
@@ -541,7 +587,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         
     }
 
-
+    /**
+     * 
+     */
     private void FnLoadAllTasks(){
         LocalDate previousDate = null;
         TaskItemPanel tmp;
@@ -583,6 +631,11 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
     }
 
 
+    
+    /** 
+     * @param date
+     * @return LocalDate
+     */
     private LocalDate FnInputHandleTaskDate(String date){
         if (date == null || date.isEmpty()){
             return null;
@@ -603,32 +656,44 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         return null;
     }
 
+    
+    /** 
+     * @param id
+     * @param date
+     * @param created
+     */
     @Override
     public void TaskCreated(int id, LocalDate date, String... created) {
         FnUpdate();
     }
 
 
+    
+    /** 
+     * @param id
+     * @param updates
+     */
     @Override
     public void TaskUpdated(int id, String... updates) {
         FnUpdate();        
     }
 
 
+    
+    /** 
+     * @param taskId
+     */
     @Override
     public void TaskDeleted(int taskId) {
         FnUpdate();        
     }
 
-
+    
+    /** 
+     * @param taskId
+     */
     @Override
-    public void RequestRefresh(){
-        FnUpdate();
-    }
-
-
-    @Override
-    public void taskEditOpened(int taskId) {
+    public void TaskEditOpened(int taskId) {
         if (PanelTaskDetails.isVisible()){
             FnHideDetailPanel();
         }
@@ -636,9 +701,11 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         FnEditTaskSetup(taskId);
     }
 
-
+    /**
+     * 
+     */
     @Override
-    public void taskEditClosed(){
+    public void TaskEditClosed(){
         FnHideDetailPanel();
     }
 
