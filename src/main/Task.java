@@ -25,7 +25,7 @@ import java.time.LocalDate;
  */
 
 /**
- * The model in the the Model-Controller-View methodology.<!-- --> A task needing to be completed by the user
+ * The model in the the Model-View-Controller design pattern.<!-- --> Represents a task needing to be completed by the user
  * @author Grant Docherty - 5032768
  */
 public class Task implements Comparable<Task>{
