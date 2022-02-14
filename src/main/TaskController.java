@@ -38,8 +38,6 @@ import java.time.LocalDate;
  * @author Grant Docherty - 5032768
  */
 public class TaskController {
-    
-    // TODO: Comment everything
 
     // Initalize all global variables
     private List<Task> allTasks;
@@ -188,6 +186,8 @@ public class TaskController {
     
 
     // TODO: Fix me
+    // TODO: JavaDoc commenting after fix
+    // TODO: General Commenting within method once fixed
     public void EditTask(int id, String taskName, String details, String date){
         if ((details.isEmpty() && date.isEmpty()) || (details == null && date == null)){
             FindTaskById(id).setTaskName(taskName);
