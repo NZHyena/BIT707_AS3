@@ -1,9 +1,8 @@
 package main;
-
-import java.time.LocalDate;
-import java.time.Period;
 import java.awt.*;
 import javax.swing.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -28,29 +27,48 @@ import javax.swing.*;
  */
 
 /**
- *
+ * An extention of the javax.swing.JPanel to add date headings to the Task List
  * @author Grant Docherty - 5032768
  */
 public class TaskHeadingPanel extends JPanel {
 
     /**
      * Creates new form TaskHeadingPanel
+     * @param date - The date for this heading panel to display
      */
     public TaskHeadingPanel(LocalDate date) {
+        // Initialize all components
         initComponents();
+
+        // Set the name for this panel
         this.setName("TaskHeadingPanel");
+
+        // Start of if conditional to handle date param
         if (date == null){
+            // Set the JLabel in the panel to "Unscheduled"
             DateHeading.setText("Unscheduled");
-        } else if (date.isBefore(LocalDate.now())){
+        } else if (date.isBefore(LocalDate.now())){ // End of if conditional, start of else if conditional to handle overdue heading panel
+            
+            // Initializing a local variable to store the amount of days the task is overdue
             Period overdue = Period.between(date, LocalDate.now());
+
+            // Set the JLabel in the panel to the number of days overdue
             DateHeading.setText(String.format("Tasks overdue: %d Days", overdue.getDays()));
+
+            // Set the JLabel font colour to Red to reinforce the overdue nature of the task
             DateHeading.setForeground(Color.RED);
-        } else if (date.equals(LocalDate.now())){
+
+        } else if (date.equals(LocalDate.now())){ // End of else if conditional, start of else if conditional to handle tasks due today
+            
+            // Set the JLabel text to a formatted String
             DateHeading.setText(String.format("Tasks Due: Today (%ta %tb %te)", date, date, date));
+
+            // Set the JLabel font colour to Red to reinforce the task is due today
             DateHeading.setForeground(Color.RED);
-        } else {
+
+        } else { // End of else if conditional, start of else conditional
             DateHeading.setText(String.format("Tasks due: %ta %tb %te", date, date, date));
-        }
+        } // End of else conditional
     }
 
     /**
