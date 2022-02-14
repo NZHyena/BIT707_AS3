@@ -69,6 +69,7 @@ public class TaskItemPanel extends JPanel{
 
     /**
      * Creates new form TaskItemPanel
+     * @param t - The task this Panel represents in the TaskList
      */
     public TaskItemPanel(Task t) {
         // Call initComponents
