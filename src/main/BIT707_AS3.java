@@ -23,7 +23,7 @@ package main;
 
 
 /**
- *
+ * The main class of the application.
  * @author Grant Docherty - 5032768
  */
 public class BIT707_AS3 {
