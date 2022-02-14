@@ -1,23 +1,38 @@
 package main;
-
 import javax.swing.*;
-
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
-
+import java.awt.Font;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Copyright (C) 2022 Grant Docherty
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ * BIT707 – Software Engineering 2021-2022
+ * Written for the Graduate Diploma in Information Technology at the Open Polytechnic.
+ * This is the work of a student and follows the principles of academic integrity set by the Open Polytech
  */
 
 /**
  *
- * @author user
+ * @author Grant Docherty - 5032768
  */
 public class CalendarView extends JFrame {
 
@@ -52,7 +67,7 @@ public class CalendarView extends JFrame {
     }
 
 // TODO: Fix List/Form Bounds
-
+// TODO: Fix methods to reuse code wherever possible
 // TODO: On exit
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,10 +102,10 @@ public class CalendarView extends JFrame {
         LblDay6 = new JLabel();
         LblDay7 = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 500));
-        setPreferredSize(new java.awt.Dimension(900, 550));
-        setSize(new java.awt.Dimension(900, 550));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new Dimension(900, 500));
+        setPreferredSize(new Dimension(900, 550));
+        setSize(new Dimension(900, 550));
         getContentPane().setLayout(null);
 
         BtnNextWeek.setText("Next Week >>");
@@ -116,53 +131,53 @@ public class CalendarView extends JFrame {
         LblWeekPosition.setHorizontalAlignment(SwingConstants.CENTER);
         LblWeekPosition.setText("jLabel1");
         LblWeekPosition.setName("LblWeek"); // NOI18N
-        LblWeekPosition.setPreferredSize(new java.awt.Dimension(50, 16));
+        LblWeekPosition.setPreferredSize(new Dimension(50, 16));
         getContentPane().add(LblWeekPosition);
         LblWeekPosition.setBounds(375, 24, 150, 16);
 
-        ListDay1.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay1.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay1.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay1.setPreferredSize(new Dimension(50, 102));
         jScrollPane1.setViewportView(ListDay1);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(30, 80, 120, 410);
 
-        ListDay2.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay2.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay2.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay2.setPreferredSize(new Dimension(50, 102));
         jScrollPane2.setViewportView(ListDay2);
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(150, 80, 120, 410);
 
-        ListDay3.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay3.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay3.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay3.setPreferredSize(new Dimension(50, 102));
         jScrollPane3.setViewportView(ListDay3);
 
         getContentPane().add(jScrollPane3);
         jScrollPane3.setBounds(270, 80, 120, 410);
 
-        ListDay4.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        ListDay4.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         jScrollPane4.setViewportView(ListDay4);
 
         getContentPane().add(jScrollPane4);
         jScrollPane4.setBounds(390, 80, 120, 410);
 
-        ListDay5.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay5.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay5.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay5.setPreferredSize(new Dimension(50, 102));
         jScrollPane5.setViewportView(ListDay5);
 
         getContentPane().add(jScrollPane5);
         jScrollPane5.setBounds(510, 80, 120, 410);
 
-        ListDay6.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay6.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay6.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay6.setPreferredSize(new Dimension(50, 102));
         jScrollPane6.setViewportView(ListDay6);
 
         getContentPane().add(jScrollPane6);
         jScrollPane6.setBounds(630, 80, 120, 410);
 
-        ListDay7.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        ListDay7.setPreferredSize(new java.awt.Dimension(50, 102));
+        ListDay7.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        ListDay7.setPreferredSize(new Dimension(50, 102));
         jScrollPane7.setViewportView(ListDay7);
 
         getContentPane().add(jScrollPane7);
