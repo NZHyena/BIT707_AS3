@@ -1,5 +1,4 @@
 package main;
-
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
@@ -29,43 +28,64 @@ import java.util.List;
  */
 
  /**
- *
+ * An extention of the javax.swing.JPanel to represent a single task object in the task list
  * @author Grant Docherty - 5032768
  */
 public class TaskItemPanel extends JPanel{
 
+    // Initializing global class variables
     private int taskId;
     private boolean taskOpened = false;
     private List<ItemPanelListener> listeners = new ArrayList<ItemPanelListener>();
     private Color defaultBackground = this.getBackground();
 
+    /**
+     * A method to add a new ItemPanelListener to the list of event listeners
+     * @param toAdd - The new ItemPanelListener
+     */
     public void addListener(ItemPanelListener toAdd){
         listeners.add(toAdd);
     }
 
-    public void notifyEditOpen(){
+    /**
+     * A method to notify all ItemPanelListeners that a taskEditOpened event has occured
+     */
+    public void NotifyEditOpen(){
+        // Start of for each loop to iterate through listeners list
         for (ItemPanelListener tl :listeners){
-            tl.taskEditOpened(taskId);
-        }
+            tl.TaskEditOpened(taskId);
+        } // End of for each loop
     }
-    public void notifyEditClose(){
+
+    /**
+     * A method to notify all ItemPanelListeners that a taskEditClosed event has occured
+     */
+    public void NotifyEditClose(){
+        // Start of for each loop to iterate through listeners list
         for (ItemPanelListener tl :listeners){
-            tl.taskEditClosed();
-        }
+            tl.TaskEditClosed();
+        } // End of for each loop
     }
 
     /**
      * Creates new form TaskItemPanel
      */
     public TaskItemPanel(Task t) {
+        // Call initComponents
         initComponents();
+
+        // Set global taskID variable
         taskId = t.getId();
+
+        // Set the text witin the ChkBoxWithTaskName checkbox
         ChkBoxWithTaskName.setText(t.getTaskName());
+
+        // Start of if conditional to set the task's due date if one exists
         if (t.getDate() != null){
             LblTaskDate.setText(t.getDate().toString());
-        } else {
+        } else { // End of if conditional, start of else conditional
             LblTaskDate.setVisible(false);
-        }
+        } // End of else conditional
     }
 
     /**
@@ -109,37 +129,77 @@ public class TaskItemPanel extends JPanel{
         BtnEditTask.setBounds(270, 10, 30, 30);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method the occures when the BtnEditTask is clicked within the ItemPanel
+     * @param evt - The event that fires
+     */
     protected void BtnEditTaskActionPerformed(ActionEvent evt) {
+        // Start of if conditional
         if(taskOpened){
+            // Flipping the Icon on the button from left facing to right facing to indicate the task is now closed
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
+
+            // Setting the border back to it's default
             setBorder(BorderFactory.createEmptyBorder());
+
+            // Setting the background of the panel back to it's default
             setBackground(defaultBackground);
-            notifyEditClose();
+
+            // Notifiying all ItemPanelListeners that this task is now closed
+            NotifyEditClose();
+
+            // Setting taskOpened to false
             taskOpened = false;
-        } else {
+
+        } else { // End of if conditional, start of else conditional
+            // Flipping the Icon on the button from right facing to left facing to indicate the task is now closed
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-left-24.png")));
+
+            // Setting the border to a lowered bevel to indicate this task is open
             setBorder(BorderFactory.createLoweredBevelBorder());
+
+            // Setting the background of the panel to a slightly darker shade to reinforce this task as the one that is open
             setBackground(new Color(200,200,200));
-            notifyEditOpen();
+
+            // Notifying all ItemPanelListeners that this task is now open
+            NotifyEditOpen();
+
+            // Setting taskOpened to true
             taskOpened = true;
-        }
+        } // End of else conditional
     }
 
+    /**
+     * Getter method to retrieve the status of the ChkBoxWithTaskName
+     * @return - Whether the checkbox is currently ticked (true) or unticked (false)
+     */
     public boolean FnGetCheckbox(){
+        // Start of if conditional
         if(ChkBoxWithTaskName.isSelected()){
             return true;
-        }
+        } // End of if conditional
         return false;
     }
 
+    /**
+     * Getter method to retrieve the taskId for the task this panel represents in the task list
+     * @return - The taskId for this JPanel
+     */
     public int FnGetTaskID(){
         return taskId;
     }
 
+    /**
+     * Getter method to retrieve the open/closed status of this panel
+     * @return - Wheter the task is currently open (true) or closed (false)
+     */
     public boolean FnGetTaskOpen(){
         return taskOpened;
     }
 
+    /**
+     * Method to set the JPanel into a closed state
+     */
     public void FnSetTaskClosed(){
         taskOpened = false;
         setBackground(defaultBackground);
@@ -153,8 +213,13 @@ public class TaskItemPanel extends JPanel{
     private JLabel LblTaskDate;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Observer pattern interface in order to instruct listeners should a task open or close
+     * @see NotifyEditOpen
+     * @see NotifyEditClosed
+     */
     interface ItemPanelListener {
-        void taskEditOpened(int taskId);
-        void taskEditClosed();
+        void TaskEditOpened(int taskId);
+        void TaskEditClosed();
     }
 }
