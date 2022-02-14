@@ -1,5 +1,4 @@
 package main;
-
 import java.awt.*;
 import javax.swing.*;
 /*
@@ -25,7 +24,7 @@ import javax.swing.*;
  */
 
 /**
- *
+ * An extention of the javax.swing.JPanel to indicate no tasks being present in the task list.
  * @author Grant Docherty - 5032768
  */
 public class ListEmptyHeadingPanel extends JPanel {
@@ -34,9 +33,10 @@ public class ListEmptyHeadingPanel extends JPanel {
      * Creates new form TaskHeadingPanel
      */
     public ListEmptyHeadingPanel() {
+        // Call the initComponents method
         initComponents();
+        // Set the name of this panel
         this.setName("ListEmptyHeadingPanel");
-        
     }
 
     /**
