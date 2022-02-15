@@ -185,31 +185,58 @@ public class TaskController {
     }
     
 
-    // TODO: Fix me
-    // TODO: JavaDoc commenting after fix
-    // TODO: General Commenting within method once fixed
+    /**
+     * Method to edit a task object
+     * Also notifes all TaskListeners that a task has been edited
+     * @param id - The id of the task to update
+     * @param taskName - The updated task name
+     * @param details - The updated task details
+     * @param date - The updated task date as a String
+     */
     public void EditTask(int id, String taskName, String details, String date){
+        // Act as if we are always updating the taskname
+        FindTaskById(id).setTaskName(taskName);
+
+        // Start of if conditional to check if we need to change the task details and date
         if ((details.isEmpty() && date.isEmpty()) || (details == null && date == null)){
-            FindTaskById(id).setTaskName(taskName);
+
+            // Notifying TaskListeners that the task name of a task has been edited
             notifyEdit(id, taskName);
-        }
-        else if (!details.isEmpty() && details != null && !date.isEmpty() && date != null){
+
+        } else if (!details.isEmpty() && details != null && !date.isEmpty() && date != null){ // End of if conditional, start of else if conditional to check if we are changing both the task details ADN date
+            
+            // Updating the details
             FindTaskById(id).setDetails(details);
+
+            // Parse and update the date
             LocalDate tempDate = LocalDate.parse(date);
             FindTaskById(id).setDate(tempDate);
+
+            // Notifying TaskListeners that the task name, details and date of a task have been edited
             notifyEdit(id, taskName, details, date);
-        }
-        else{
+
+        } else{ // End of else if conditional, start of else conditional (else we are updating either the details OR the date)
+            
+            // Start of if conditional to determine if we are updating the task details
             if(!details.isEmpty()){
+                
+                // Updating the task details
                 FindTaskById(id).setDetails(details);
+
+                // Notifying TaskListeners that the task name and details of a task have been edited
                 notifyEdit(id, taskName, details);
-            }
-            else{
+
+            } else { // End of if conditional, start of else conditional (we aren't updating the task details we know we are updating the date)
+                
+                // Parsing and update the date
                 LocalDate tempDate = LocalDate.parse(date);
                 FindTaskById(id).setDate(tempDate);
+
+                // Notifying TaskListeners that the taskname and date of a task have been edited
                 notifyEdit(id, taskName, "", date);
-            }
-        }
+
+            } // End of else conditional
+        } // End of else conditional
     }
     
     /**
@@ -421,7 +448,7 @@ public class TaskController {
             // Displaying relevant exception feedback
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
-            // TODO: Better handling here
+            // NOTE: See line 32 of Database Connection class for how I feel about handling exceptions in this way (spoiler alert: Not proud of it) 
             // Closing the application
             System.exit(0);
 
