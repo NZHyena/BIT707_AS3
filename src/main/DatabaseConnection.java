@@ -29,6 +29,7 @@ import java.time.LocalDate;
  * @author Grant Docherty - 5032768
  */
 // Note: Class does not work in testing as a part of the /test/
+// Additional Note: Exception handling in this class needs work, however creating and handling relevant exceptions pushes my time management further than I have already pushed it
 public final class DatabaseConnection implements TaskListener{
     // Initializing required SQLite variable
         Connection c = null;
@@ -53,10 +54,8 @@ public final class DatabaseConnection implements TaskListener{
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
-                // TODO: Handle Me
                 // Closing the application
-                //System.exit(0);
-
+                System.exit(0);
             } // End of Catch exception handling
         }
 
@@ -78,7 +77,7 @@ public final class DatabaseConnection implements TaskListener{
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
-                //System.exit(0);
+                System.exit(0);
             } // End of catch exception handling
         }
 
@@ -101,7 +100,7 @@ public final class DatabaseConnection implements TaskListener{
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
                 // Closing the application
-                //System.exit(0);
+                System.exit(0);
 
             } // End of Catch exception handling
             return result;
@@ -221,9 +220,8 @@ public final class DatabaseConnection implements TaskListener{
                 // Displaying relevant exception feedback
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
 
-                // TODO: Deal With this
                 // Closing the application
-                //System.exit(0);
+                System.exit(0);
 
             } // End of Catch exception handling
         }
