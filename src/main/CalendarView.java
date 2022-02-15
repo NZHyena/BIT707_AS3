@@ -36,39 +36,48 @@ import java.util.List;
  */
 public class CalendarView extends JFrame {
 
-    LocalDate today = LocalDate.now();
-    LocalDate weekStart;
-    List<Task> TasksInDay1 = new ArrayList<Task>();
-    LocalDate day2;
-    List<Task> TasksInDay2 = new ArrayList<Task>();
-    LocalDate day3;
-    List<Task> TasksInDay3 = new ArrayList<Task>();
-    LocalDate day4;
-    List<Task> TasksInDay4 = new ArrayList<Task>();
-    LocalDate day5;
-    List<Task> TasksInDay5 = new ArrayList<Task>();
-    LocalDate day6;
-    List<Task> TasksInDay6 = new ArrayList<Task>();
-    LocalDate weekEnd;
-    List<Task> TasksInDay7 = new ArrayList<Task>();
-
-    int weekIterate = 0;
-
+    // Initalize relative form components
+    JFrame parentFrame;
     JLabel emptyDay;
 
+    // Initalize form variables
+    LocalDate today = LocalDate.now();
+    LocalDate weekStart;
+    int weekIterate = 0;
     TaskController controller;
+
+    LocalDate day2;
+    LocalDate day3;
+    LocalDate day4;
+    LocalDate day5;
+    LocalDate day6;
+    LocalDate weekEnd;
+
+    List<Task> TasksInDay1 = new ArrayList<Task>();
+    List<Task> TasksInDay2 = new ArrayList<Task>();
+    List<Task> TasksInDay3 = new ArrayList<Task>();
+    List<Task> TasksInDay4 = new ArrayList<Task>();
+    List<Task> TasksInDay5 = new ArrayList<Task>();
+    List<Task> TasksInDay6 = new ArrayList<Task>();
+    List<Task> TasksInDay7 = new ArrayList<Task>();
+    
     /**
      * Creates new form CalendarView
      */
-    public CalendarView(TaskController controller) {
+    public CalendarView(JFrame parent, TaskController controller) {
+        // Sets parent JFrame of this JFrame
+        parentFrame = parent;
+
+        // Initializes all other components
         initComponents();
+
+        // Initializes the Task Controller
         this.controller = controller;
+
+        // Calls FnCalendarSetup
         FnCalendarSetup();
     }
 
-// TODO: Fix List/Form Bounds
-// TODO: Fix methods to reuse code wherever possible
-// TODO: On exit
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,10 +111,15 @@ public class CalendarView extends JFrame {
         LblDay6 = new JLabel();
         LblDay7 = new JLabel();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new Dimension(900, 500));
-        setPreferredSize(new Dimension(900, 550));
-        setSize(new Dimension(900, 550));
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setMaximumSize(new Dimension(1275, 550));
+        setPreferredSize(new Dimension(1275, 550));
+        setSize(new Dimension(1275, 550));
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         BtnNextWeek.setText("Next Week >>");
@@ -116,7 +130,7 @@ public class CalendarView extends JFrame {
             }
         });
         getContentPane().add(BtnNextWeek);
-        BtnNextWeek.setBounds(525, 18, 103, 28);
+        BtnNextWeek.setBounds(715, 18, 130, 28);
 
         BtnPreviousWeek.setText("<< Previous Week");
         BtnPreviousWeek.setName("BtnPreviousWeek"); // NOI18N
@@ -126,119 +140,150 @@ public class CalendarView extends JFrame {
             }
         });
         getContentPane().add(BtnPreviousWeek);
-        BtnPreviousWeek.setBounds(248, 18, 127, 28);
+        BtnPreviousWeek.setBounds(435, 18, 130, 28);
 
         LblWeekPosition.setHorizontalAlignment(SwingConstants.CENTER);
         LblWeekPosition.setText("jLabel1");
         LblWeekPosition.setName("LblWeek"); // NOI18N
         LblWeekPosition.setPreferredSize(new Dimension(50, 16));
         getContentPane().add(LblWeekPosition);
-        LblWeekPosition.setBounds(375, 24, 150, 16);
+        LblWeekPosition.setBounds(565, 24, 150, 16);
 
         ListDay1.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay1.setPreferredSize(new Dimension(50, 102));
         jScrollPane1.setViewportView(ListDay1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(30, 80, 120, 410);
+        jScrollPane1.setBounds(20, 80, 170, 410);
 
         ListDay2.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay2.setPreferredSize(new Dimension(50, 102));
         jScrollPane2.setViewportView(ListDay2);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(150, 80, 120, 410);
+        jScrollPane2.setBounds(195, 80, 170, 410);
 
         ListDay3.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay3.setPreferredSize(new Dimension(50, 102));
         jScrollPane3.setViewportView(ListDay3);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(270, 80, 120, 410);
+        jScrollPane3.setBounds(370, 80, 170, 410);
 
         ListDay4.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         jScrollPane4.setViewportView(ListDay4);
 
         getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(390, 80, 120, 410);
+        jScrollPane4.setBounds(545, 80, 170, 410);
 
         ListDay5.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay5.setPreferredSize(new Dimension(50, 102));
         jScrollPane5.setViewportView(ListDay5);
 
         getContentPane().add(jScrollPane5);
-        jScrollPane5.setBounds(510, 80, 120, 410);
+        jScrollPane5.setBounds(720, 80, 170, 410);
 
         ListDay6.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay6.setPreferredSize(new Dimension(50, 102));
         jScrollPane6.setViewportView(ListDay6);
 
         getContentPane().add(jScrollPane6);
-        jScrollPane6.setBounds(630, 80, 120, 410);
+        jScrollPane6.setBounds(895, 80, 170, 410);
 
         ListDay7.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         ListDay7.setPreferredSize(new Dimension(50, 102));
         jScrollPane7.setViewportView(ListDay7);
 
         getContentPane().add(jScrollPane7);
-        jScrollPane7.setBounds(750, 80, 120, 410);
+        jScrollPane7.setBounds(1070, 80, 170, 410);
 
         LblDay1.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay1.setText("jLabel2");
         getContentPane().add(LblDay1);
-        LblDay1.setBounds(30, 60, 120, 16);
+        LblDay1.setBounds(20, 60, 170, 16);
 
         LblDay2.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay2.setText("jLabel3");
         getContentPane().add(LblDay2);
-        LblDay2.setBounds(150, 60, 120, 16);
+        LblDay2.setBounds(195, 60, 170, 16);
 
         LblDay3.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay3.setText("jLabel4");
         getContentPane().add(LblDay3);
-        LblDay3.setBounds(270, 60, 120, 16);
+        LblDay3.setBounds(370, 60, 170, 16);
 
         LblDay4.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay4.setText("jLabel5");
         getContentPane().add(LblDay4);
-        LblDay4.setBounds(390, 60, 120, 16);
+        LblDay4.setBounds(545, 60, 170, 16);
 
         LblDay5.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay5.setText("jLabel6");
         getContentPane().add(LblDay5);
-        LblDay5.setBounds(510, 60, 120, 16);
+        LblDay5.setBounds(720, 60, 170, 16);
 
         LblDay6.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay6.setText("jLabel7");
         getContentPane().add(LblDay6);
-        LblDay6.setBounds(630, 60, 120, 16);
+        LblDay6.setBounds(895, 60, 170, 16);
 
         LblDay7.setHorizontalAlignment(SwingConstants.CENTER);
         LblDay7.setText("jLabel8");
         getContentPane().add(LblDay7);
-        LblDay7.setBounds(750, 60, 120, 16);
+        LblDay7.setBounds(1070, 60, 170, 16);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    /** 
+     * Event that fires when this form closes
+     * @param evt - The windows event for a form closing
+     */
+    protected void formWindowClosing(WindowEvent evt) {
+        // Reopen previous JFrame
+        parentFrame.setVisible(true);
+    }
+
+    
+    /** 
+     * Event that fires when the BtnNextWeek is clicked
+     * @param evt - The Action Event for a button being clicked
+     */
     protected void BtnNextWeekActionPerformed(ActionEvent evt) {
+        // Call FnCalendarIncrement
         FnCalendarIncrement();
+
+        // Revalidate and repaint the frame
         revalidate();
         repaint();
     }
 
+    
+    /** 
+     * Event that fires when the BTNPreviousWeek is clicked
+     * @param evt - The Action Event for a button being clicked
+     */
     protected void BtnPreviousWeekActionPerformed(ActionEvent evt) {
+        // Call FnCalendarDecrement
         FnCalendarDecrement();
+
+        // Revalidate and repaint the frame
         revalidate();
         repaint();
     }
 
+    /**
+     * Method to set up the calendar form on JFrame initalization
+     */
     private void FnCalendarSetup(){
+        // Get today's date as a day of the week
         DayOfWeek todayAsDay = today.getDayOfWeek();
-        String emptyDayText ="No Tasks Today";
 
+        // Set the default text for the LblWeekPosition
         LblWeekPosition.setText("This Week");
 
+        // Start of switch conditional for determining the start of the week
         switch(todayAsDay){
             case SATURDAY:
                 weekStart = today.minusDays(6);
@@ -263,8 +308,9 @@ public class CalendarView extends JFrame {
                 break;
             default:
                 break;
-        }
+        } // End of switch conditional
 
+        // Setting individual day values
         day2 = weekStart.plusDays(1);
         day3 = weekStart.plusDays(2);
         day4 = weekStart.plusDays(3);
@@ -272,88 +318,21 @@ public class CalendarView extends JFrame {
         day6 = weekStart.plusDays(5);
         weekEnd = weekStart.plusDays(6);
 
-        LblDay1.setText(String.format("%ta %tb %td", weekStart, weekStart, weekStart));
-        LblDay2.setText(String.format("%ta %tb %td", day2, day2, day2));
-        LblDay3.setText(String.format("%ta %tb %td", day3, day3, day3));
-        LblDay4.setText(String.format("%ta %tb %td", day4, day4, day4));
-        LblDay5.setText(String.format("%ta %tb %td", day5, day5, day5));
-        LblDay6.setText(String.format("%ta %tb %td", day6, day6, day6));
-        LblDay7.setText(String.format("%ta %tb %td", weekEnd, weekEnd, weekEnd));
+        // Calling FnSetDayLbls to set the day labels
+        FnSetDayLbls();
 
-        List<Task> weekTasks = controller.FindTasksBetweenDates(weekStart, weekEnd);
-
-        for (Task task : weekTasks) {
-            JLabel tmpLbl = new JLabel();
-            tmpLbl.setFont(new Font("sansserif", Font.BOLD, 14));
-            tmpLbl.setText(task.getTaskName());
-            LocalDate tmpDate = task.getDate();
-
-            if(tmpDate.equals(weekStart)){
-                ListDay1.add(tmpLbl);
-                TasksInDay1.add(task);
-            } else if(tmpDate.equals(day2)){
-                ListDay2.add(tmpLbl);
-                TasksInDay2.add(task);
-            } else if(tmpDate.equals(day3)){
-                ListDay3.add(tmpLbl);
-                TasksInDay3.add(task);
-            } else if(tmpDate.equals(day4)){
-                ListDay4.add(tmpLbl);
-                TasksInDay4.add(task);
-            } else if(tmpDate.equals(day5)){
-                ListDay5.add(tmpLbl);
-                TasksInDay5.add(task);
-            } else if(tmpDate.equals(day6)){
-                ListDay6.add(tmpLbl);
-                TasksInDay6.add(task);
-            } else if(tmpDate.equals(weekEnd)){
-                ListDay7.add(tmpLbl);
-                TasksInDay7.add(task);
-            }
-        }
-
-        if(TasksInDay1.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay1.add(emptyDay);
-        }
-        if(TasksInDay2.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay2.add(emptyDay);
-        }
-        if(TasksInDay3.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay3.add(emptyDay);
-        }
-        if(TasksInDay4.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay4.add(emptyDay);
-        }
-        if(TasksInDay5.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay5.add(emptyDay);
-        }
-        if(TasksInDay6.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay6.add(emptyDay);
-        }
-        if(TasksInDay7.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay7.add(emptyDay);
-        }
+        // Calling FnFillCalendar to fill the calendar with created tasks
+        FnFillCalendar();
     }
 
+    /**
+     * Method to setup the next week in the calendar cycle relative to the current displayed week
+     */
     private void FnCalendarIncrement(){
-        String emptyDayText ="No Tasks Today";
-
+        // Iterate the week
         weekIterate++;
 
+        // Increment all the current set dates by a week
         weekStart = weekStart.plusWeeks(1);
         day2 = day2.plusWeeks(1);
         day3 = day3.plusWeeks(1);
@@ -362,116 +341,27 @@ public class CalendarView extends JFrame {
         day6 = day6.plusWeeks(1);
         weekEnd = weekEnd.plusWeeks(1);
 
-        ListDay1.removeAll();
-        ListDay2.removeAll();
-        ListDay3.removeAll();
-        ListDay4.removeAll();
-        ListDay5.removeAll();
-        ListDay6.removeAll();
-        ListDay7.removeAll();
+        // Calling FnClearLists to clear all of the lists
+        FnClearLists();
 
-        TasksInDay1.clear();
-        TasksInDay2.clear();
-        TasksInDay3.clear();
-        TasksInDay4.clear();
-        TasksInDay5.clear();
-        TasksInDay6.clear();
-        TasksInDay7.clear();
-
-        LblDay1.setText(String.format("%ta %tb %td", weekStart, weekStart, weekStart));
-        LblDay2.setText(String.format("%ta %tb %td", day2, day2, day2));
-        LblDay3.setText(String.format("%ta %tb %td", day3, day3, day3));
-        LblDay4.setText(String.format("%ta %tb %td", day4, day4, day4));
-        LblDay5.setText(String.format("%ta %tb %td", day5, day5, day5));
-        LblDay6.setText(String.format("%ta %tb %td", day6, day6, day6));
-        LblDay7.setText(String.format("%ta %tb %td", weekEnd, weekEnd, weekEnd));
-
-        List<Task> weekTasks = controller.FindTasksBetweenDates(weekStart, weekEnd);
-
+        // Calling FnSetDayLbls to set the day labels
+        FnSetDayLbls();
         
-        if(weekIterate == 1){
-            LblWeekPosition.setText("Next Week");
-        } else if (weekIterate == 0){
-            LblWeekPosition.setText("This Week");
-        } else if(weekIterate == -1){
-            LblWeekPosition.setText("Last Week");
-        }
-        else {
-            LblWeekPosition.setText(String.format("Week of: %tb %td %tY",weekStart, weekStart, weekStart));
-        }
+        // Calling FnSetWeekLbl to set the week position label
+        FnSetWeekLbl();
 
-        for (Task task : weekTasks) {
-            JLabel tmpLbl = new JLabel();
-            tmpLbl.setFont(new Font("sansserif", Font.BOLD, 14));
-            tmpLbl.setText(task.getTaskName());
-            LocalDate tmpDate = task.getDate();
-
-            if(tmpDate.equals(weekStart)){
-                ListDay1.add(tmpLbl);
-                TasksInDay1.add(task);
-            } else if(tmpDate.equals(day2)){
-                ListDay2.add(tmpLbl);
-                TasksInDay2.add(task);
-            } else if(tmpDate.equals(day3)){
-                ListDay3.add(tmpLbl);
-                TasksInDay3.add(task);
-            } else if(tmpDate.equals(day4)){
-                ListDay4.add(tmpLbl);
-                TasksInDay4.add(task);
-            } else if(tmpDate.equals(day5)){
-                ListDay5.add(tmpLbl);
-                TasksInDay5.add(task);
-            } else if(tmpDate.equals(day6)){
-                ListDay6.add(tmpLbl);
-                TasksInDay6.add(task);
-            } else if(tmpDate.equals(weekEnd)){
-                ListDay7.add(tmpLbl);
-                TasksInDay7.add(task);
-            }
-        }
-
-        if(TasksInDay1.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay1.add(emptyDay);
-        }
-        if(TasksInDay2.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay2.add(emptyDay);
-        }
-        if(TasksInDay3.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay3.add(emptyDay);
-        }
-        if(TasksInDay4.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay4.add(emptyDay);
-        }
-        if(TasksInDay5.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay5.add(emptyDay);
-        }
-        if(TasksInDay6.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay6.add(emptyDay);
-        }
-        if(TasksInDay7.size() == 0){
-            emptyDay = new JLabel();
-            emptyDay.setText(emptyDayText);
-            ListDay7.add(emptyDay);
-        }
+        // Calling FnFillCalendar to fill the calendar with tasks
+        FnFillCalendar();
     }
 
+    /**
+     * Method to setup the previous week in the calendar cycle relative to the current displayed week
+     */
     private void FnCalendarDecrement(){
-        String emptyDayText ="No Tasks Today";
-
+        // Decrement the week counter
         weekIterate--;
 
+        // Decrement all of the dates by a week
         weekStart = weekStart.minusWeeks(1);
         day2 = day2.minusWeeks(1);
         day3 = day3.minusWeeks(1);
@@ -480,6 +370,40 @@ public class CalendarView extends JFrame {
         day6 = day6.minusWeeks(1);
         weekEnd = weekEnd.minusWeeks(1);
 
+        // Calling FnClearLists to clear all of the lists
+        FnClearLists();
+
+        // Calling FnSetDayLbls to set the day labels
+        FnSetDayLbls();
+        
+        // Calling FnSetWeekLbl to set the week position label
+        FnSetWeekLbl();
+
+        // Calling FnFillCalendar to fill the calendar with tasks
+        FnFillCalendar();
+    }
+
+    /**
+     * Method to set the Week Position Label relative to the inital displayed week
+     */
+    private void FnSetWeekLbl(){
+        // Start of if conditional
+        if(weekIterate == 1){
+            LblWeekPosition.setText("Next Week");
+        } else if (weekIterate == 0){ // End of if conditional, start of else if conditional
+            LblWeekPosition.setText("This Week");
+        } else if(weekIterate == -1){ // End of else if conditional, start of else if conditional
+            LblWeekPosition.setText("Last Week");
+        } else { // End of else if conditional, start of else conditional
+            LblWeekPosition.setText(String.format("Week starting: %tb %td",weekStart, weekStart));
+        } // End of else conditional
+    }
+
+    /**
+     * Method to clear all of the global lists and all of the Box & JScrollPane pairs
+     */
+    private void FnClearLists(){
+        // Clear all JFrame Lists
         ListDay1.removeAll();
         ListDay2.removeAll();
         ListDay3.removeAll();
@@ -488,6 +412,7 @@ public class CalendarView extends JFrame {
         ListDay6.removeAll();
         ListDay7.removeAll();
 
+        // Clear all List<Task>s
         TasksInDay1.clear();
         TasksInDay2.clear();
         TasksInDay3.clear();
@@ -495,7 +420,12 @@ public class CalendarView extends JFrame {
         TasksInDay5.clear();
         TasksInDay6.clear();
         TasksInDay7.clear();
+    }
 
+    /**
+     * Method to set the Day Labels to their relative dates
+     */
+    private void FnSetDayLbls(){
         LblDay1.setText(String.format("%ta %tb %td", weekStart, weekStart, weekStart));
         LblDay2.setText(String.format("%ta %tb %td", day2, day2, day2));
         LblDay3.setText(String.format("%ta %tb %td", day3, day3, day3));
@@ -503,85 +433,105 @@ public class CalendarView extends JFrame {
         LblDay5.setText(String.format("%ta %tb %td", day5, day5, day5));
         LblDay6.setText(String.format("%ta %tb %td", day6, day6, day6));
         LblDay7.setText(String.format("%ta %tb %td", weekEnd, weekEnd, weekEnd));
+    }
 
+    /**
+     * Method to fill the current Calendar view with tasks
+     */
+    private void FnFillCalendar(){
+        // Initalizing local variables and collections
+        String emptyDayText ="No Tasks Today";
         List<Task> weekTasks = controller.FindTasksBetweenDates(weekStart, weekEnd);
-        
-        if(weekIterate == 1){
-            LblWeekPosition.setText("Next Week");
-        } else if (weekIterate == 0){
-            LblWeekPosition.setText("This Week");
-        } else if(weekIterate == -1){
-            LblWeekPosition.setText("Last Week");
-        }
-        else {
-            LblWeekPosition.setText(String.format("Week of: %tb %td %tY",weekStart, weekStart, weekStart));
-        }
 
+        // Start of for each loop to iterate through the weekTasks list
         for (Task task : weekTasks) {
+            // Initialize a new temporary JLabel and set font, text, and layout details
             JLabel tmpLbl = new JLabel();
             tmpLbl.setFont(new Font("sansserif", Font.BOLD, 14));
             tmpLbl.setText(task.getTaskName());
+            tmpLbl.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+
+            // Initialize a new temp LocalDate
             LocalDate tmpDate = task.getDate();
 
+            // Start of if conditional. Conditional chain adds temp JLabel to the correct list on the form
             if(tmpDate.equals(weekStart)){
                 ListDay1.add(tmpLbl);
                 TasksInDay1.add(task);
-            } else if(tmpDate.equals(day2)){
+            } else if(tmpDate.equals(day2)){ // End of if conditional, start of else if conditional 
                 ListDay2.add(tmpLbl);
                 TasksInDay2.add(task);
-            } else if(tmpDate.equals(day3)){
+            } else if(tmpDate.equals(day3)){ // End of else if conditional, start of else if conditional
                 ListDay3.add(tmpLbl);
                 TasksInDay3.add(task);
-            } else if(tmpDate.equals(day4)){
+            } else if(tmpDate.equals(day4)){ // End of else if conditional, start of else if conditional
                 ListDay4.add(tmpLbl);
                 TasksInDay4.add(task);
-            } else if(tmpDate.equals(day5)){
+            } else if(tmpDate.equals(day5)){ // End of else if conditional, start of else if conditional
                 ListDay5.add(tmpLbl);
                 TasksInDay5.add(task);
-            } else if(tmpDate.equals(day6)){
+            } else if(tmpDate.equals(day6)){ // End of else if conditional, start of else if conditional
                 ListDay6.add(tmpLbl);
                 TasksInDay6.add(task);
-            } else if(tmpDate.equals(weekEnd)){
+            } else if(tmpDate.equals(weekEnd)){ // End of else if conditional, start of else if conditional
                 ListDay7.add(tmpLbl);
                 TasksInDay7.add(task);
-            }
-        }
+            } // End of else if conditional
+        } // End of for each loop
 
+        // Start of if conditional. Each of these set an 'emptyDayText' JLabel to any list that has not associated tasks
         if(TasksInDay1.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay1.add(emptyDay);
-        }
+        } // End of if conditional
+
+        // Start of if conditional
         if(TasksInDay2.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay2.add(emptyDay);
-        }
+        } // End of if conditional
+
+        // Start of if conditional
         if(TasksInDay3.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay3.add(emptyDay);
         }
         if(TasksInDay4.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay4.add(emptyDay);
-        }
+        } // End of if conditional
+
+        // Start of if conditional
         if(TasksInDay5.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay5.add(emptyDay);
-        }
+        } // End of if conditional
+
+        // Start of if conditional
         if(TasksInDay6.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay6.add(emptyDay);
-        }
+        } // End of if conditional
+
+        // Start of if conditional
         if(TasksInDay7.size() == 0){
             emptyDay = new JLabel();
             emptyDay.setText(emptyDayText);
+            emptyDay.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             ListDay7.add(emptyDay);
-        }
+        } // End of if conditional
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
