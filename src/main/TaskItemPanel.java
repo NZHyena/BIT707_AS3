@@ -115,12 +115,14 @@ public class TaskItemPanel extends JPanel{
         ChkBoxWithTaskName.setFont(new Font("sansserif", 1, 12)); // NOI18N
         ChkBoxWithTaskName.setText("TaskName");
         ChkBoxWithTaskName.setName("TaskNameAndCheck"); // NOI18N
+        ChkBoxWithTaskName.setToolTipText("Click to mark this task as complete");
         add(ChkBoxWithTaskName);
         ChkBoxWithTaskName.setBounds(10, 14, 200, 18);
 
         BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png"))); // NOI18N
         BtnEditTask.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         BtnEditTask.setPreferredSize(new Dimension(30, 30));
+        BtnEditTask.setToolTipText("Click to open this task in the 'Task View & Edit' panel");
         BtnEditTask.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 BtnEditTaskActionPerformed(evt);
@@ -139,6 +141,7 @@ public class TaskItemPanel extends JPanel{
         if(taskOpened){
             // Flipping the Icon on the button from left facing to right facing to indicate the task is now closed
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
+            BtnEditTask.setToolTipText("Click to open this task in the 'Task View & Edit' panel");
 
             // Setting the border back to it's default
             setBorder(BorderFactory.createEmptyBorder());
@@ -155,6 +158,7 @@ public class TaskItemPanel extends JPanel{
         } else { // End of if conditional, start of else conditional
             // Flipping the Icon on the button from right facing to left facing to indicate the task is now closed
             BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-left-24.png")));
+            BtnEditTask.setToolTipText("Click to close this task and the 'Task View & Edit' panel");
 
             // Setting the border to a lowered bevel to indicate this task is open
             setBorder(BorderFactory.createLoweredBevelBorder());
@@ -204,6 +208,7 @@ public class TaskItemPanel extends JPanel{
     public void FnSetTaskClosed(){
         taskOpened = false;
         setBackground(defaultBackground);
+        setBorder(BorderFactory.createEmptyBorder());
         BtnEditTask.setIcon(new ImageIcon(getClass().getResource("/main/resources/icons8-double-right-24.png")));
     }
 
