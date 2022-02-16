@@ -2,7 +2,6 @@ package main;
 import java.awt.*;
 import javax.swing.*;
 import java.time.LocalDate;
-import java.time.Period;
 
 /*
  * Copyright (C) 2022 Grant Docherty
@@ -50,10 +49,10 @@ public class TaskHeadingPanel extends JPanel {
         } else if (date.isBefore(LocalDate.now())){ // End of if conditional, start of else if conditional to handle overdue heading panel
             
             // Initializing a local variable to store the amount of days the task is overdue
-            Period overdue = Period.between(date, LocalDate.now());
+            long overdue = java.time.temporal.ChronoUnit.DAYS.between(date, LocalDate.now());
 
             // Set the JLabel in the panel to the number of days overdue
-            DateHeading.setText(String.format("Tasks overdue: %d Days", overdue.getDays()));
+            DateHeading.setText(String.format("Tasks overdue: %d Days", overdue));
 
             // Set the JLabel font colour to Red to reinforce the overdue nature of the task
             DateHeading.setForeground(Color.RED);
