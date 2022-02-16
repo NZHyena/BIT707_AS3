@@ -358,7 +358,9 @@ public class TaskListUI extends JFrame implements TaskListener, ItemPanelListene
         // Start of if conditional to determine if we delete the task
         if (result == JOptionPane.YES_OPTION){
             controller.DeleteTask(controller.FindTaskById(editTaskId));
-            FnHideDetailPanel();
+
+        FnUpdate();
+        FnHideDetailPanel();
         } // End of if conditional
     }
 
