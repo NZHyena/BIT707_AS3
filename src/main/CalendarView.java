@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 /**
- *
+ * The Calendar Report form
  * @author Grant Docherty - 5032768
  */
 public class CalendarView extends JFrame {
